@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studworks — tell a LEGO machine what to do</title>
+<meta name="description" content="Describe what you want your LEGO machine to do. Studworks works out the hardware, writes the program, and puts it on the hub.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500&display=swap">
+<style>
+  :root{--ground:#EDF0F3;--panel:#F8FAFB;--ink:#131C24;--soft:#46545F;--faint:#74838F;
+        --rule:#CBD4DC;--accent:#1F4FD8;--ok:#1B7A4B;--ok-soft:#D6EDE0}
+  @media (prefers-color-scheme:dark){:root{--ground:#0D141A;--panel:#141E27;--ink:#E6EDF3;
+        --soft:#A3B1BD;--faint:#75858F;--rule:#2A3945;--accent:#7DA0FF;--ok:#5FCB92;--ok-soft:#123024}}
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--ink);margin:0;padding:0 clamp(16px,5vw,32px) 80px;
+       font:16.5px/1.6 "IBM Plex Serif",Georgia,serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto}
+  header{padding:72px 0 28px;border-bottom:2px solid var(--ink)}
+  h1{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:clamp(34px,7vw,52px);
+     font-weight:700;letter-spacing:-.025em;margin:0;line-height:1}
+  .tag{font-size:clamp(17px,3vw,21px);color:var(--soft);margin:14px 0 0;max-width:34ch}
+  h2{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:12px;font-weight:600;
+     text-transform:uppercase;letter-spacing:.13em;color:var(--faint);
+     margin:56px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+  p{margin:0 0 14px;max-width:64ch}
+  a{color:var(--accent)}
+  .demo{background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--accent);
+        padding:20px 24px;margin:26px 0;font-family:"IBM Plex Mono",monospace;font-size:13.5px;
+        line-height:1.9;overflow-x:auto}
+  .demo .you{color:var(--ink);font-weight:500}
+  .demo .app{color:var(--soft)}
+  .demo .ok{color:var(--ok)}
+  ul{padding-left:20px;max-width:64ch}
+  li{margin-bottom:8px}
+  .hw{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1px;
+      background:var(--rule);border:1px solid var(--rule);margin:18px 0}
+  .hw div{background:var(--panel);padding:12px 15px;font-family:"IBM Plex Sans",sans-serif;font-size:13.5px}
+  .hw b{display:block;font-weight:600}
+  .hw span{color:var(--faint);font-size:12.5px}
+  .cta{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;
+       font-family:"IBM Plex Sans",sans-serif;font-weight:600;font-size:15px;
+       padding:12px 22px;border-radius:3px;margin:8px 12px 8px 0}
+  .cta.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+  .note{background:var(--ok-soft);border:1px solid var(--ok);padding:14px 18px;
+        font-size:14.5px;margin:20px 0}
+  .note b{color:var(--ok)}
+  footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--rule);
+         font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--faint);line-height:1.8}
+  a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Studworks</h1>
+    <p class="tag">Tell a LEGO machine what to do. It works out the rest.</p>
+  </header>
+
+  <p style="margin-top:26px">Connect a Powered Up hub. Studworks finds out what is plugged in,
+  asks about anything it cannot see, turns what you typed into a program, compiles it on your
+  own device and puts it on the hub. Then you tell it what to change.</p>
+
+  <div class="demo">
+    <span class="app">Connected — City Hub · A: Train Motor · B: Colour &amp; Distance Sensor</span><br>
+    <span class="you">&gt; when my train approaches, lower the barrier</span><br>
+    <span class="app">I need a motor for the barrier and I can't see one. Do you have one you can plug in?</span><br>
+    <span class="you">&gt; [plugged into port C]</span><br>
+    <span class="ok">✓ Port C — Technic Large Motor</span><br>
+    <span class="app">I can see a Technic Large Motor on port C. Is that the barrier?</span><br>
+    <span class="you">&gt; yes</span><br>
+    <span class="ok">✓ Compiled · downloaded · running</span><br>
+    <span class="you">&gt; the barrier is too slow</span><br>
+    <span class="ok">✓ Changed and redeployed</span>
+  </div>
+
+  <h2>Why it is different</h2>
+  <p>Most tools that write code for you do not know what is on the other end of the cable.
+  Studworks starts by asking the hub. It knows which motor is your barrier and which is your
+  train, and when it does not know, it asks rather than guessing — because moving the wrong
+  motor is the one mistake worth avoiding above all others.</p>
+
+  <ul>
+    <li><b>It works offline.</b> No account, no API key, no server. Nothing you type leaves your device.</li>
+    <li><b>It is free.</b> Not a trial.</li>
+    <li><b>Every program is bounded.</b> Motors coast when a program ends, moves have deadlines,
+        and a jam is abandoned rather than pushed through.</li>
+    <li><b>You correct it in words.</b> "Too slow", "stay down longer", "not so far".</li>
+  </ul>
+
+  <h2>Hardware</h2>
+  <div class="hw">
+    <div><b>City Hub</b><span>88009 · 2 ports</span></div>
+    <div><b>Technic Hub</b><span>88012 · 4 ports</span></div>
+    <div><b>Move Hub</b><span>Boost · 4 ports</span></div>
+    <div><b>SPIKE Prime</b><span>6 ports</span></div>
+    <div><b>SPIKE Essential</b><span>2 ports</span></div>
+    <div><b>Robot Inventor</b><span>6 ports</span></div>
+  </div>
+  <p>Motors, colour and distance sensors. Your hub needs
+  <a href="https://pybricks.com">Pybricks</a> installed — Studworks talks to it, and is not
+  affiliated with the Pybricks project.</p>
+
+  <div class="note">
+    <p style="margin:0"><b>Early.</b> Studworks is being built in the open and is not finished.
+    If you try it and it does something daft, telling me is the most useful thing you can do.</p>
+  </div>
+
+  <h2>Get it</h2>
+  <p>
+    <a class="cta" href="https://github.com/graemerycyk/studworks/releases">Download</a>
+    <a class="cta ghost" href="https://github.com/graemerycyk/studworks">GitHub</a>
+  </p>
+  <p style="font-size:14.5px;color:var(--soft)">Mac and iPad. Requires a Powered Up hub running Pybricks.</p>
+
+  <footer>
+    studworks.build<br>
+    Not affiliated with, endorsed by, or sponsored by the LEGO Group.
+    LEGO® is a trademark of the LEGO Group.<br>
+    Not affiliated with the Pybricks project. Includes MicroPython, MIT licensed.
+  </footer>
+
+</div>
+</body>
+</html>
