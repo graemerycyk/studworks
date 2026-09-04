@@ -4,10 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Studworks — tell a LEGO machine what to do</title>
-<meta name="description" content="Describe what you want your LEGO machine to do. Studworks works out the hardware, writes the program, and puts it on the hub.">
+<meta name="description" content="Free, offline tools for telling supported LEGO hubs what to do on Mac, iPad and iPhone, with a local MCP developer preview.">
+<meta property="og:title" content="Studworks — tell a LEGO machine what to do">
+<meta property="og:description" content="Free, offline tools for supported LEGO hubs on Mac, iPad and iPhone.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://studworks.build/">
+<meta property="og:image" content="https://studworks.build/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Studworks — tell a LEGO machine what to do">
+<meta name="twitter:description" content="Free, offline tools for supported LEGO hubs on Mac, iPad and iPhone.">
+<meta name="twitter:image" content="https://studworks.build/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Serif:wght@400;500&amp;display=swap">
 <style>
   :root{--ground:#EDF0F3;--panel:#F8FAFB;--ink:#131C24;--soft:#46545F;--faint:#74838F;
         --rule:#CBD4DC;--accent:#1F4FD8;--ok:#1B7A4B;--ok-soft:#D6EDE0}
@@ -46,6 +55,8 @@
   .note{background:var(--ok-soft);border:1px solid var(--ok);padding:14px 18px;
         font-size:14.5px;margin:20px 0}
   .note b{color:var(--ok)}
+  .small{font-size:14.5px;color:var(--soft)}
+  code{font-family:"IBM Plex Mono",monospace;font-size:.92em}
   footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--rule);
          font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--faint);line-height:1.8}
   a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -60,34 +71,33 @@
   </header>
 
   <p style="margin-top:26px">Connect a supported LEGO hub. Studworks finds out what is plugged in,
-  asks about anything it cannot see, turns what you typed into a program, compiles it on your
-  own device and puts it on the hub. Then you tell it what to change.</p>
+  asks about anything it cannot see, turns one plain-language instruction into a small program,
+  compiles it on your own device and puts it on the hub.</p>
 
   <div class="demo">
-    <span class="app">Connected — City Hub · A: Train Motor · B: Colour &amp; Distance Sensor</span><br>
-    <span class="you">&gt; when my train approaches, lower the barrier</span><br>
-    <span class="app">I need a motor for the barrier and I can't see one. Do you have one you can plug in?</span><br>
-    <span class="you">&gt; [plugged into port C]</span><br>
-    <span class="ok">✓ Port C — Technic Large Motor</span><br>
-    <span class="app">I can see a Technic Large Motor on port C. Is that the barrier?</span><br>
+    <span class="app">Connected — City Hub · A: Technic Large Motor · B: empty</span><br>
+    <span class="you">&gt; report the battery voltage</span><br>
+    <span class="ok">✓ Battery: 8972 mV</span><br>
+    <span class="you">&gt; turn the motor 90 degrees slowly</span><br>
+    <span class="app">I can see a Technic Large Motor on port A. Is that the motor?</span><br>
     <span class="you">&gt; yes</span><br>
-    <span class="ok">✓ Compiled · downloaded · running</span><br>
-    <span class="you">&gt; the barrier is too slow</span><br>
-    <span class="ok">✓ Changed and redeployed</span>
+    <span class="ok">✓ Compiled · downloaded · finished safely</span>
   </div>
 
   <h2>Why it is different</h2>
-  <p>Most tools that write code for you do not know what is on the other end of the cable.
-  Studworks starts by asking the hub. It knows which motor is your barrier and which is your
-  train, and when it does not know, it asks rather than guessing — because moving the wrong
-  motor is the one mistake worth avoiding above all others.</p>
+  <p><b>Your words become motion.</b> Tell Studworks one thing you want your LEGO machine to do.
+  It looks at the real hardware, creates a small program for the build in front of you, and
+  shows you exactly what will run. If anything is unclear, it asks before it acts.</p>
 
   <ul>
-    <li><b>It works offline.</b> No account, no API key, no server. Nothing you type leaves your device.</li>
-    <li><b>It is free.</b> Not a trial.</li>
-    <li><b>Every program is bounded.</b> Motors coast when a program ends, moves have deadlines,
-        and a jam is abandoned rather than pushed through.</li>
-    <li><b>You correct it in words.</b> "Too slow", "stay down longer", "not so far".</li>
+    <li><b>From idea to action.</b> Describe what you want. Studworks creates the program;
+        you decide when to run it.</li>
+    <li><b>It knows your build.</b> Motors and sensors are matched to what is actually plugged in,
+        so your train stays your train and your barrier stays your barrier.</li>
+    <li><b>Guardrails in every run.</b> Movements have deadlines, motors coast when the program ends,
+        and a jam is abandoned instead of forced.</li>
+    <li><b>Free forever. Private by design.</b> No trial, account, API key or Studworks server.
+        The app runs on your device, even offline.</li>
   </ul>
 
   <h2>Hardware</h2>
@@ -100,10 +110,37 @@
     <div><b>Robot Inventor</b><span>6 ports</span></div>
   </div>
   <p>Works with supported LEGO hubs, including City, Technic, BOOST Move, SPIKE Prime,
-  SPIKE Essential, and MINDSTORMS Robot Inventor. Motors, colour and distance sensors.
-  Studworks uses
+  SPIKE Essential, and MINDSTORMS Robot Inventor. Studworks detects supported motors and
+  colour/distance sensors. The first alpha focuses on port inspection, battery, hub-light,
+  and bounded motor actions. Studworks uses
   <a href="https://pybricks.com">Pybricks</a> on the hub; if it is not installed yet, the app
   guides you through setup. Studworks is not affiliated with the Pybricks project.</p>
+
+  <h2 id="mcp">MCP developer preview</h2>
+  <p>Studworks also has a local macOS Model Context Protocol server. A compatible desktop
+  AI client can scan, connect, inspect the real hardware, read the safe Studworks API, run
+  a bounded program, read its output, stop it, and disconnect. A read-only port inspection
+  is required after every connection before any program can run.</p>
+
+  <div class="note">
+    <p style="margin:0"><b>Developer preview.</b> MCP is source-only, is not included in the
+    current alpha download, and has not completed its real-hub safety qualification. These
+    steps are for people who already have the full Studworks source checkout.</p>
+  </div>
+
+  <p>On macOS 14 or later, build and test the local server from the source root:</p>
+  <div class="demo"><span class="you">swift test --package-path StudworksMCP</span><br>
+    <span class="you">swift build --package-path StudworksMCP -c release</span></div>
+  <p>Add the resulting <code>studworks-mcp</code> executable to Claude Desktop as a local
+  stdio server using its absolute path, then fully restart Claude Desktop and allow Bluetooth.
+  The detailed path, configuration and safety notes are in the
+  <a href="https://github.com/graemerycyk/studworks#mcp-developer-preview">README</a>.</p>
+  <p>Start with this read-only request:</p>
+  <div class="demo"><span class="you">&gt; List nearby LEGO hubs. Connect to the strongest one,
+  then inspect its ports. Do not run a program.</span></div>
+  <p class="small">The MCP server and Bluetooth connection run locally, but your chosen AI
+  client may use its own service. Its plan, charges and privacy terms are separate from
+  Studworks. Studworks itself remains free.</p>
 
   <div class="note">
     <p style="margin:0"><b>Early.</b> Studworks is being built in the open and is not finished.
@@ -117,13 +154,14 @@
     <a class="cta" href="https://github.com/graemerycyk/studworks/releases">Download</a>
     <a class="cta ghost" href="https://github.com/graemerycyk/studworks">GitHub</a>
   </p>
-  <p style="font-size:14.5px;color:var(--soft)">Mac and iPad. Works with the supported LEGO hubs listed above; Studworks guides you through setup.</p>
+  <p class="small"><b>For Mac, iPad and iPhone.</b> Chrome support is coming soon.<br>
+  The first alpha download is for Apple-silicon Macs while iPad and iPhone builds finish testing.</p>
 
   <footer>
     studworks.build<br>
     Not affiliated with, endorsed by, or sponsored by the LEGO Group.
     LEGO® is a trademark of the LEGO Group.<br>
-    Not affiliated with the Pybricks project. Includes MicroPython, MIT licensed.
+    Not affiliated with the Pybricks project. Includes the MicroPython cross-compiler, MIT licensed.
   </footer>
 
 </div>
