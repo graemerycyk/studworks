@@ -85,7 +85,13 @@ def check():
             if url.fragment and resolved in pages:
                 assert unquote(url.fragment) in pages[resolved].ids, f"Broken fragment: {path}: {link}"
     concept = (ROOT / "projects/railway-crossing/index.html").read_text()
-    assert "Not available in this alpha" in concept and "data-copy-target" not in concept
+    assert "Not available in this beta" in concept and "data-copy-target" not in concept
+    home = (ROOT / "index.html").read_text()
+    readme = (ROOT / "README.md").read_text()
+    for content in (home, readme):
+        assert "/Applications/Studworks.app/Contents/Helpers/studworks-mcp" in content, "MCP must use the bundled helper"
+        assert "source-only" not in content and "swift build --package-path StudworksMCP" not in content, "Retired MCP setup must not return"
+        assert "Studworks 0.1.0 Beta" in content and "coming next" in content, "Do not advertise an unpublished beta as downloadable"
     feed = ET.parse(ROOT / "journal/feed.xml").getroot()
     ns = {"a": "http://www.w3.org/2005/Atom"}
     entries = feed.findall("a:entry", ns)

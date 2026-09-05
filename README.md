@@ -22,9 +22,9 @@ required, and what you type in the app stays on your device.
 - Asks when a motor's purpose is unclear and rejects instructions it cannot
   interpret safely instead of guessing.
 
-The first alpha deliberately focuses on single, explicit actions. Sensor
-automation and conversational **Change it** refinement will return after their
-safety pass.
+The first beta focuses on explicit, bounded actions. Sensor automation,
+continuous control and conversational **Change it** refinement are not part of
+this beta. Both the app and MCP use the same supported behaviour set.
 
 ## Why it is different
 
@@ -46,77 +46,80 @@ before it acts.
 
 Works with supported LEGO hubs, including City, Technic, BOOST Move, SPIKE Prime,
 SPIKE Essential, and MINDSTORMS Robot Inventor. Studworks detects supported motors
-and colour/distance sensors; the first alpha exposes port inspection, battery,
+and colour/distance sensors; the first beta exposes port inspection, battery,
 hub-light, and bounded motor actions.
 
 Studworks uses [Pybricks](https://pybricks.com) on the hub. If it is not installed
 yet, the app guides you through setup.
 
-## MCP developer preview
+## MCP setup
 
-Studworks also has a local macOS [Model Context Protocol](https://modelcontextprotocol.io)
-server. It lets a compatible desktop AI client scan for a hub, connect, inspect
-every port, read the Studworks API, run a bounded program, read its output, stop
-it, and disconnect. A read-only port inspection is required after every connection
-before any program can run.
+**One app. MCP included.** The Mac app bundles a local
+[Model Context Protocol](https://modelcontextprotocol.io) server. Your compatible
+desktop AI app acts as the MCP client; Studworks handles Bluetooth, projects,
+hardware checks and execution. There is no separate Studworks MCP client to
+install, hosted backend, account service, database service or cloud relay.
+Projects are saved locally on your Mac.
 
-This is currently a **source-only developer preview**. It is not included in the
-alpha download and has not completed its real-hub safety qualification. The setup
-below is for people who already have the full Studworks source checkout.
+You do not need Xcode, Swift or the source checkout. These instructions apply to
+the bundled Mac app; the first public beta download is being prepared.
 
-### Requirements
-
-- macOS 14 or later and Xcode with Swift 6.2
-- A supported LEGO hub with Pybricks installed
-- Claude Desktop for the current preview; other MCP clients have not yet been
-  qualified for Studworks' macOS Bluetooth permission flow
-
-### Build and test the server
-
-From the root of the full source checkout:
-
-```sh
-swift test --package-path StudworksMCP
-swift build --package-path StudworksMCP -c release
-```
-
-Keep the executable in its SwiftPM release directory so it can find its bundled
-safety shim and API description.
-
-### Add it to Claude Desktop
-
-Open `~/Library/Application Support/Claude/claude_desktop_config.json` and add a
-local stdio server using an absolute path:
+1. Install the Studworks Mac app in Applications and open it.
+2. Enable **External AI control** in Studworks. If macOS asks, grant Bluetooth
+   permission to **Studworks**, not to the AI app.
+3. Configure your AI app to launch the bundled helper as a **local stdio MCP
+   server**, with no arguments. For clients using the common JSON format:
 
 ```json
 {
   "mcpServers": {
     "studworks": {
-      "command": "/ABSOLUTE/PATH/TO/STUDWORKS-SOURCE/StudworksMCP/.build/release/studworks-mcp"
+      "command": "/Applications/Studworks.app/Contents/Helpers/studworks-mcp"
     }
   }
 }
 ```
 
-Fully quit and reopen Claude Desktop, allow Bluetooth when macOS asks, and put the
-hub into its blinking-blue discovery mode. Use this as the first safe check:
+Keep the helper inside its matching app. If you installed Studworks elsewhere,
+use that absolute path. Configuration locations vary by AI client; restart the
+client if it requires it and keep Studworks open. The helper does not launch the
+app automatically. Compatibility depends on the host supporting this local stdio
+integration; listing an MCP server is not itself proof of hardware compatibility.
 
-> List nearby LEGO hubs. Connect to the strongest one, then inspect its ports.
-> Do not run a program.
+Start with a read-only hardware check:
 
-Motor execution through MCP remains a developer test until its disconnect and
-process-exit hardening has passed on real hardware. Keep the mechanism clear and
-the hub's physical stop button within reach during any hardware test.
+> List nearby LEGO hubs. After I choose a hub, connect, run the non-moving
+> self-test and inspect its ports. Do not move any motors.
+
+The app and MCP share the same capabilities and guardrails. Each connection needs
+a successful non-moving self-test and fresh port inspection. Motor roles must be
+confirmed against the real build. An AI can propose a run, but only you can choose
+**Approve and run** in Studworks. Keep the mechanism clear and the hub's physical
+stop button within reach when testing movement.
+
+### Replacing an older development setup
+
+If your AI app points at a standalone `StudworksMCP/.build/...` or older
+`dist/mcp-qualification/...` executable, first stop the program and confirm the
+hub is stopped. Replace that configuration with the bundled app path above,
+remove duplicate Studworks entries, and restart the AI app. The retired helper
+could connect directly to Bluetooth; the bundled helper uses the Studworks app.
 
 The MCP server and Bluetooth connection run locally, but the AI client you connect
 may process conversations through its own service. That client's plan, charges,
 and privacy terms are separate from Studworks. Studworks itself remains free.
 
-## Download and status
+## Studworks 0.1.0 Beta
 
-[Download the latest release](https://github.com/graemerycyk/studworks/releases).
-The first alpha download is for Apple-silicon Macs while iPad and iPhone builds
-finish testing.
+The first beta is one Apple-silicon Mac download containing the app, its local
+model and the matching MCP helper. No separate server installation or paid
+Studworks service. **It is free, forever.** Not a trial.
+
+The beta download is coming next, after final device checks and Mac release
+packaging. It will appear on the
+[releases page](https://github.com/graemerycyk/studworks/releases) as
+`v0.1.0-beta.1` (app version `0.1.0`). iPad and iPhone builds are still being tested;
+Chrome support is planned.
 
 **Early.** Studworks is being built in the open and is not finished. If you try it
 and it does something daft, email [help@studworks.build](mailto:help@studworks.build)
