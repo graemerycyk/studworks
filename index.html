@@ -8,68 +8,30 @@
 <meta property="og:title" content="Studworks — tell a LEGO machine what to do">
 <meta property="og:description" content="Free, offline tools for supported LEGO hubs on Mac, iPad and iPhone.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://studworks.build/">
-<meta property="og:image" content="https://studworks.build/og.png">
+<meta property="og:url" content="https://www.studworks.build/">
+<meta property="og:image" content="https://www.studworks.build/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Studworks — tell a LEGO machine what to do">
 <meta name="twitter:description" content="Free, offline tools for supported LEGO hubs on Mac, iPad and iPhone.">
-<meta name="twitter:image" content="https://studworks.build/og.png">
+<meta name="twitter:image" content="https://www.studworks.build/og.png">
+<link rel="canonical" href="https://www.studworks.build/">
+<link rel="alternate" type="application/atom+xml" title="Studworks Journal" href="/journal/feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Serif:wght@400;500&amp;display=swap">
-<style>
-  :root{--ground:#EDF0F3;--panel:#F8FAFB;--ink:#131C24;--soft:#46545F;--faint:#74838F;
-        --rule:#CBD4DC;--accent:#1F4FD8;--ok:#1B7A4B;--ok-soft:#D6EDE0}
-  @media (prefers-color-scheme:dark){:root{--ground:#0D141A;--panel:#141E27;--ink:#E6EDF3;
-        --soft:#A3B1BD;--faint:#75858F;--rule:#2A3945;--accent:#7DA0FF;--ok:#5FCB92;--ok-soft:#123024}}
-  *{box-sizing:border-box}
-  body{background:var(--ground);color:var(--ink);margin:0;padding:0 clamp(16px,5vw,32px) 80px;
-       font:16.5px/1.6 "IBM Plex Serif",Georgia,serif;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:760px;margin:0 auto}
-  header{padding:72px 0 28px;border-bottom:2px solid var(--ink)}
-  h1{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:clamp(34px,7vw,52px);
-     font-weight:700;letter-spacing:-.025em;margin:0;line-height:1}
-  .tag{font-size:clamp(17px,3vw,21px);color:var(--soft);margin:14px 0 0;max-width:34ch}
-  h2{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:12px;font-weight:600;
-     text-transform:uppercase;letter-spacing:.13em;color:var(--faint);
-     margin:56px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
-  p{margin:0 0 14px;max-width:64ch}
-  a{color:var(--accent)}
-  .demo{background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--accent);
-        padding:20px 24px;margin:26px 0;font-family:"IBM Plex Mono",monospace;font-size:13.5px;
-        line-height:1.9;overflow-x:auto}
-  .demo .you{color:var(--ink);font-weight:500}
-  .demo .app{color:var(--soft)}
-  .demo .ok{color:var(--ok)}
-  ul{padding-left:20px;max-width:64ch}
-  li{margin-bottom:8px}
-  .hw{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1px;
-      background:var(--rule);border:1px solid var(--rule);margin:18px 0}
-  .hw div{background:var(--panel);padding:12px 15px;font-family:"IBM Plex Sans",sans-serif;font-size:13.5px}
-  .hw b{display:block;font-weight:600}
-  .hw span{color:var(--faint);font-size:12.5px}
-  .cta{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;
-       font-family:"IBM Plex Sans",sans-serif;font-weight:600;font-size:15px;
-       padding:12px 22px;border-radius:3px;margin:8px 12px 8px 0}
-  .cta.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
-  .note{background:var(--ok-soft);border:1px solid var(--ok);padding:14px 18px;
-        font-size:14.5px;margin:20px 0}
-  .note b{color:var(--ok)}
-  .small{font-size:14.5px;color:var(--soft)}
-  code{font-family:"IBM Plex Mono",monospace;font-size:.92em}
-  footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--rule);
-         font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--faint);line-height:1.8}
-  a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-</style>
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <div class="wrap">
 
   <header>
+    <nav class="site-nav" aria-label="Main"><a class="brand" href="/" aria-current="page">Studworks</a><a href="/projects/">Projects</a><a href="/journal/">Journal</a><a href="#get-it">Get the app</a></nav>
     <h1>Studworks</h1>
     <p class="tag">Tell a LEGO machine what to do. It works out the rest.</p>
   </header>
 
+  <main id="main">
   <p style="margin-top:26px">Connect a supported LEGO hub. Studworks finds out what is plugged in,
   asks about anything it cannot see, turns one plain-language instruction into a small program,
   compiles it on your own device and puts it on the hub.</p>
@@ -99,6 +61,12 @@
     <li><b>Free forever. Private by design.</b> No trial, account, API key or Studworks server.
         The app runs on your device, even offline.</li>
   </ul>
+
+  <h2>From the workbench</h2>
+  <div class="grid">
+    <article class="project-card"><p class="eyebrow">Projects</p><h3>Start with one thing that works.</h3><p>Meet your hub, make a small motor move, and see what we are building towards.</p><a class="card-link" href="/projects/">Explore the project notes →</a></article>
+    <article class="project-card"><p class="eyebrow">Journal</p><h3>The work behind the work.</h3><p>Hardware tests, wrong turns and the decisions shaping Studworks.</p><a class="card-link" href="/journal/">Read the journal →</a></article>
+  </div>
 
   <h2>Hardware</h2>
   <div class="hw">
@@ -149,15 +117,17 @@
     you can do.</p>
   </div>
 
-  <h2>Get it</h2>
+  <h2 id="get-it">Get it</h2>
   <p>
     <a class="cta" href="https://github.com/graemerycyk/studworks/releases">Download</a>
     <a class="cta ghost" href="https://github.com/graemerycyk/studworks">GitHub</a>
   </p>
   <p class="small"><b>For Mac, iPad and iPhone.</b> Chrome support is coming soon.<br>
   The first alpha download is for Apple-silicon Macs while iPad and iPhone builds finish testing.</p>
+  </main>
 
   <footer>
+    <a href="/projects/">Projects</a> · <a href="/journal/">Journal</a> · <a href="/projects/#share">Share a build</a><br>
     studworks.build<br>
     Not affiliated with, endorsed by, or sponsored by the LEGO Group.
     LEGO® is a trademark of the LEGO Group.<br>

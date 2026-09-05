@@ -123,6 +123,60 @@ and it does something daft, email [help@studworks.build](mailto:help@studworks.b
 or [open an issue](https://github.com/graemerycyk/studworks/issues). Telling me is
 the most useful thing you can do.
 
+## Projects and Journal
+
+The website has two lightweight editorial sections:
+
+- [Projects](https://www.studworks.build/projects/): development-tested starter
+  experiments, separately labelled future concepts, and an email invitation to
+  share a build. Each project has its own page with hardware, prompts, expected
+  behaviour, evidence limits and safety notes.
+- [Journal](https://www.studworks.build/journal/): field notes and product decisions,
+  with an [Atom feed](https://www.studworks.build/journal/feed.xml).
+
+This is a manually curated first version, not a social network. There are no
+accounts, likes, comments, tracking, project uploads or automatic publication.
+Copying a prompt does not open the app, connect to hardware or execute anything.
+In-app publishing, downloadable portable projects and remixing remain future work.
+
+### Maintaining the website
+
+The site stays plain HTML/CSS/JavaScript, compatible with the existing root-based
+GitHub Pages deployment. No paid build service or new hosting is required. Pages
+share `assets/site.css`; `assets/site.js` only adds clipboard buttons with a
+selectable-text fallback. Core content and navigation work without JavaScript.
+
+Local checks and an optional public-assets-only package:
+
+```sh
+python3 scripts/check_site.py
+node --test scripts/test_copy.cjs
+python3 scripts/build_site.py
+python3 -m http.server 8766 --bind 127.0.0.1 --directory dist
+```
+
+Open `http://127.0.0.1:8766/projects/`. Python and Node are needed only for local
+checks; readers and GitHub Pages need neither. `dist/` is ignored and excludes
+scripts, README and source-control files. Publishing remains a separate action;
+the build script does not push, deploy or change the domain.
+
+To add a project, copy the closest project page into `projects/<slug>/index.html`,
+update its unique title/description/canonical/Open Graph fields, and add a card to
+`projects/index.html`. Include the creator’s approved display name, exact hardware,
+the prompt, physical results and the build/version on which they were observed.
+Concepts must say they are unavailable and must not offer a runnable prompt action.
+Do not substitute stock or generated pictures for evidence of an actual build.
+
+To add a journal note, create `journal/<slug>/index.html`, update `journal/index.html`
+and `journal/feed.xml`, and run the checks. Dates reflect publication, not the date
+an earlier hardware test happened. Adjust draft dates when publishing later.
+
+For emailed submissions, request only a display name, hardware list, prompt,
+description of what happened and links to the creator’s own photo/video. Confirm
+the wording, credit and permission to share each asset before publishing. Do not
+publish email addresses or other personal details by default. A development test
+must not be presented as current-release qualification.
+
 ## Licence and attribution
 
 Not affiliated with, endorsed by, or sponsored by the LEGO Group. LEGO® is a
