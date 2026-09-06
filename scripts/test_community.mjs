@@ -25,7 +25,7 @@ test('unavailable and oversized responses never become successful UI data', asyn
   await assert.rejects(api('/api/v1/gallery'), /unavailable/);
   mocked.mock.mockImplementation(async () => Response.json({ error: { message: 'Please wait.' } }, { status: 429 }));
   await assert.rejects(api('/api/v1/gallery'), /Please wait/);
-  mocked.mock.mockImplementation(async () => new Response('x'.repeat(512 * 1024 + 1)));
+  mocked.mock.mockImplementation(async () => new Response('x'.repeat(2 * 1024 * 1024 + 1)));
   await assert.rejects(api('/api/v1/gallery'), /too large/);
 });
 
@@ -44,4 +44,18 @@ test('untrusted gallery content is text, with no automatic media embed or fetch'
   assert.equal(made.find(e => e.tag === 'a').rel, 'noopener noreferrer nofollow ugc');
   assert.equal(safeMediaLink('javascript:alert(1)'), null);
   assert.equal(safeMediaLink('https://user:password@example.org/'), null);
+});
+
+test('optional creator links are external text links and anonymous cards do not expose them', t => {
+  const previous = globalThis.document;
+  const made = [];
+  globalThis.document = { createElement(tag) { const node = { tag, children: [], append(...items) { this.children.push(...items); } }; made.push(node); return node; } };
+  t.after(() => { if (previous === undefined) delete globalThis.document; else globalThis.document = previous; });
+  projectCard({ title: 'Lift', displayName: '<builder>', authorUrl: 'https://example.org/me', mediaUrl: '' });
+  assert.equal(made.find(node => node.tag === 'p').textContent, 'By <builder>');
+  assert.equal(made.find(node => node.tag === 'a').href, 'https://example.org/me');
+  assert.equal(made.find(node => node.tag === 'a').rel, 'noopener noreferrer nofollow ugc');
+  made.length = 0;
+  projectCard({ title: 'Lift', displayName: '', creator: '', authorUrl: 'https://example.org/private-credit', mediaUrl: '' });
+  assert.equal(made.some(node => node.tag === 'a'), false);
 });

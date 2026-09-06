@@ -1,15 +1,15 @@
 export const $ = id => document.getElementById(id);
-export async function api(path, body, { admin = false, csrf } = {}) {
+export async function api(path, body, { admin = false, csrf, encodedBody } = {}) {
   const response = await fetch(path, { method: body === undefined ? 'GET' : 'POST',
     credentials: admin ? 'same-origin' : 'omit', cache: 'no-store', referrerPolicy: 'no-referrer',
     headers: { Accept: 'application/json', ...(body === undefined ? {} : { 'Content-Type': 'application/json' }), ...(csrf ? { 'X-Studworks-CSRF': csrf } : {}) },
-    body: body === undefined ? undefined : JSON.stringify(body), signal: AbortSignal.timeout(15000) });
+    body: body === undefined ? undefined : (encodedBody ?? JSON.stringify(body)), signal: AbortSignal.timeout(15000) });
   const reader = response.body.getReader(); const chunks = []; let length = 0;
   try {
     for (;;) {
       const { done, value } = await reader.read(); if (done) break;
       length += value.byteLength;
-      if (length > 512 * 1024) { await reader.cancel(); throw new Error('The response was too large. Please try again.'); }
+      if (length > 2 * 1024 * 1024) { await reader.cancel(); throw new Error('The response was too large. Please try again.'); }
       chunks.push(value);
     }
   } finally { reader.releaseLock(); }
@@ -34,16 +34,24 @@ export async function copyField(field, statusId) {
 export function safeMediaLink(value) {
   try { const url = new URL(value); return url.protocol === 'https:' && !url.username && !url.password ? url.href : null; } catch { return null; }
 }
-export function projectCard(project) {
+export const isProjectID = value => typeof value === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(value);
+export function projectHref(id) { return isProjectID(id) ? `/projects/build/?id=${id}` : null; }
+export function projectCard(project, { moderation = false } = {}) {
   const article = document.createElement('article'); article.className = 'project-card community-card';
   const title = document.createElement('h3'); title.textContent = project.title;
-  const creator = document.createElement('p'); creator.className = 'meta'; creator.textContent = `By ${project.creator || 'Anonymous builder'}`;
+  const creator = document.createElement('p'); creator.className = 'meta';
+  const displayName = project.displayName || project.creator || '';
+  creator.textContent = `By ${displayName || 'Anonymous builder'}`;
+  const authorHref = displayName ? safeMediaLink(project.authorUrl) : null;
+  if (authorHref) { const author = document.createElement('a'); author.href = authorHref; author.textContent = ' · Blog or profile ↗'; author.rel = 'noopener noreferrer nofollow ugc'; author.target = '_blank'; creator.append(author); }
   const description = document.createElement('p'); description.textContent = project.description;
   const hardware = document.createElement('p'); hardware.textContent = `Hardware: ${project.hardware}`;
   const prompt = document.createElement('pre'); prompt.textContent = project.prompt;
   article.append(title, creator, description, hardware, prompt);
   const href = safeMediaLink(project.mediaUrl);
   if (href) { const media = document.createElement('a'); media.href = href; media.textContent = 'View photo or video ↗'; media.rel = 'noopener noreferrer nofollow ugc'; media.target = '_blank'; article.append(media); }
+  const detailHref = projectHref(project.id);
+  if (detailHref && !moderation) { const detail = document.createElement('a'); detail.href = detailHref; detail.className = 'button secondary'; detail.textContent = project.hasProject ? 'View build and project' : 'View build'; article.append(detail); }
   const notice = document.createElement('p'); notice.className = 'small meta'; notice.textContent = 'Community submission. Moderation is not hardware safety certification.'; article.append(notice);
   return article;
 }

@@ -22,9 +22,10 @@ required, and what you type in the app stays on your device.
 - Asks when a motor's purpose is unclear and rejects instructions it cannot
   interpret safely instead of guessing.
 
-The first beta focuses on explicit, bounded actions. Sensor automation,
-continuous control and conversational **Change it** refinement are not part of
-this beta. Both the app and MCP use the same supported behaviour set.
+The beta focuses on explicit, bounded actions. The next candidate adds saved
+machine details, portable projects, version history and exact corrections such
+as “Make the lift motor 20% slower”. Free-form corrections, sensor automation
+and continuous control remain outside the supported surface.
 
 ## Why it is different
 
@@ -58,8 +59,11 @@ yet, the app guides you through setup.
 [Model Context Protocol](https://modelcontextprotocol.io) server. Your compatible
 desktop AI app acts as the MCP client; Studworks handles Bluetooth, projects,
 hardware checks and execution. There is no separate Studworks MCP client to
-install, hosted backend, account service, database service or cloud relay.
-Projects are saved locally on your Mac.
+install for this local workflow. Projects are saved locally on your Mac.
+An optional online workbench, cloud MCP/API and temporary device pairing are
+being prepared on DigitalOcean. They do not replace offline use or require
+builder accounts. Online requests are sent to the hosted service; physical runs
+still require the connected device's local approval.
 
 You do not need Xcode, Swift or the source checkout. These instructions apply to
 the bundled Mac app; the first public beta download is being prepared.
@@ -137,15 +141,24 @@ The website has two lightweight editorial sections:
 - [Journal](https://www.studworks.build/journal/): field notes and product decisions,
   with an [Atom feed](https://www.studworks.build/journal/feed.xml).
 
-This is a moderated gallery, not a social network. Anonymous builders submit
-text and a public photo/video link; only approved submissions appear publicly.
-There are no builder accounts, likes, comments, tracking, direct file uploads
-or automatic publication. A private receipt lets builders check or withdraw a
+This is a moderated gallery, not a social network. Builders may submit
+anonymously or choose a name/username and an optional HTTPS blog/social link.
+Credit is unverified metadata on that build, not a registered profile.
+Submit text, a public photo/video link and, optionally, a portable Studworks
+project (up to 1 MiB). Only approved submissions appear publicly. Attachments
+include machine notes and version history, so review them before sharing.
+There are no builder accounts, likes, comments, tracking, media uploads or
+automatic publication. A private receipt lets builders check or withdraw a
 submission. `/admin/` uses allowlisted, single-use magic-link moderator login.
 This requires the new backend's PostgreSQL and mail configuration: GitHub Pages
 alone cannot accept submissions. Unconfigured forms stay closed, not fake-saved.
 Copying a prompt does not open the app, connect to hardware or execute anything.
-In-app publishing, downloadable portable projects and remixing remain future work.
+Published builds have a shareable page, project download and explicit web-app
+import link. Imported projects become independent copies; source facts require
+confirmation and neither live bindings nor run approvals are transferred.
+Remixes can link back to their published source. Sharing is not model-training
+consent. Direct in-app publishing is not required: export the project and attach
+it to the submission form.
 
 ### Maintaining the website
 
@@ -160,6 +173,7 @@ Local checks and an optional public-assets-only package:
 ```sh
 python3 scripts/check_site.py
 node --test scripts/test_copy.cjs
+node --test scripts/test_community.mjs
 python3 scripts/build_site.py
 python3 -m http.server 8766 --bind 127.0.0.1 --directory dist
 ```
@@ -180,11 +194,11 @@ To add a journal note, create `journal/<slug>/index.html`, update `journal/index
 and `journal/feed.xml`, and run the checks. Dates reflect publication, not the date
 an earlier hardware test happened. Adjust draft dates when publishing later.
 
-For emailed submissions, request only a display name, hardware list, prompt,
-description of what happened and links to the creator’s own photo/video. Confirm
-the wording, credit and permission to share each asset before publishing. Do not
-publish email addresses or other personal details by default. A development test
-must not be presented as current-release qualification.
+For submissions, review the wording, chosen credit, attachment history and
+permission to share each asset before publishing. Do not publish email
+addresses or other private details. A development test must not be presented
+as current-release qualification. The admin attachment viewer renders text
+only; never run submitted code as part of moderation.
 
 ## Licence and attribution
 

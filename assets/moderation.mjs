@@ -11,8 +11,22 @@ async function refresh(cursor = '') {
   nextCursor = result.nextCursor; $('next-queue').hidden = !nextCursor;
   $('moderation-queue').replaceChildren();
   for (const submission of result.submissions) {
-    const card = projectCard(submission);
+    const card = projectCard(submission, { moderation: true });
     const fields = document.createElement('div'); fields.className = 'moderation-fields';
+    if (submission.hasProject) {
+      const inspect = document.createElement('button'); inspect.type = 'button'; inspect.className = 'button secondary';
+      inspect.textContent = 'Inspect attached project (read only)';
+      const contents = document.createElement('pre'); contents.hidden = true; contents.tabIndex = 0;
+      inspect.addEventListener('click', async () => {
+        inspect.disabled = true;
+        try {
+          const result = await api(`/api/v1/admin/submissions/${submission.id}/project`, undefined, { admin: true });
+          contents.textContent = JSON.stringify(result.project, null, 2); contents.hidden = false;
+          inspect.textContent = 'Attached project shown below';
+        } catch (error) { message('admin-status', error.message, true); inspect.disabled = false; }
+      });
+      fields.append(inspect, contents);
+    }
     const label = document.createElement('label'); label.textContent = 'Note visible to the builder with their receipt';
     const note = document.createElement('textarea'); note.maxLength = 1000; note.rows = 3; note.value = submission.publicNote; label.append(note); fields.append(label);
     const actions = document.createElement('div'); actions.className = 'moderation-actions';
@@ -20,7 +34,7 @@ async function refresh(cursor = '') {
     for (const [action, title] of choices) {
       const button = document.createElement('button'); button.type = 'button'; button.textContent = title; button.className = 'button' + (action === 'publish' ? '' : ' secondary destructive');
       button.addEventListener('click', async () => {
-        if (!window.confirm(`${title}: “${submission.title}”?${action === 'publish' ? ' Its submitted details and media link will become public.' : ''}`)) return;
+        if (!window.confirm(`${title}: “${submission.title}”?${action === 'publish' ? ' Its submitted details, chosen credit, links, and any attached project including notes and version history will become public.' : ''}`)) return;
         for (const child of actions.children) child.disabled = true;
         try { await api(`/api/v1/admin/submissions/${submission.id}/moderate`, { action, expectedVersion: submission.version, note: note.value }, { admin: true, csrf }); await refresh(); message('admin-status', 'Review saved.'); }
         catch (error) { message('admin-status', error.message, true); for (const child of actions.children) child.disabled = false; }
