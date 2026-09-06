@@ -131,21 +131,27 @@ the most useful thing you can do.
 The website has two lightweight editorial sections:
 
 - [Projects](https://www.studworks.build/projects/): development-tested starter
-  experiments, separately labelled future concepts, and an email invitation to
-  share a build. Each project has its own page with hardware, prompts, expected
+  experiments, separately labelled future concepts, and a form to share a build
+  without a builder account or email. Each editorial project has its own page with hardware, prompts, expected
   behaviour, evidence limits and safety notes.
 - [Journal](https://www.studworks.build/journal/): field notes and product decisions,
   with an [Atom feed](https://www.studworks.build/journal/feed.xml).
 
-This is a manually curated first version, not a social network. There are no
-accounts, likes, comments, tracking, project uploads or automatic publication.
+This is a moderated gallery, not a social network. Anonymous builders submit
+text and a public photo/video link; only approved submissions appear publicly.
+There are no builder accounts, likes, comments, tracking, direct file uploads
+or automatic publication. A private receipt lets builders check or withdraw a
+submission. `/admin/` uses allowlisted, single-use magic-link moderator login.
+This requires the new backend's PostgreSQL and mail configuration: GitHub Pages
+alone cannot accept submissions. Unconfigured forms stay closed, not fake-saved.
 Copying a prompt does not open the app, connect to hardware or execute anything.
 In-app publishing, downloadable portable projects and remixing remain future work.
 
 ### Maintaining the website
 
-The site stays plain HTML/CSS/JavaScript, compatible with the existing root-based
-GitHub Pages deployment. No paid build service or new hosting is required. Pages
+The site stays plain HTML/CSS/JavaScript. Its static content remains compatible
+with the existing root-based GitHub Pages deployment; the intended DigitalOcean
+migration adds the same-origin submission/moderation backend. Pages
 share `assets/site.css`; `assets/site.js` only adds clipboard buttons with a
 selectable-text fallback. Core content and navigation work without JavaScript.
 

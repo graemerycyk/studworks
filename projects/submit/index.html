@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Share your build — Studworks</title>
+<meta name="description" content="Submit a LEGO machine made with Studworks for review. No builder account or email address needed.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://www.studworks.build/projects/submit/">
+<meta property="og:title" content="Share your build — Studworks"><meta property="og:description" content="Show what you made, the hardware you used and what you asked Studworks to do."><meta property="og:type" content="website"><meta property="og:url" content="https://www.studworks.build/projects/submit/">
+<link rel="stylesheet" href="/assets/site.css"><link rel="stylesheet" href="/assets/community.css">
+<script type="module" src="/assets/submission.mjs"></script>
+</head>
+<body><a class="skip-link" href="#main">Skip to submission</a><div class="wrap">
+<header class="compact-header"><nav class="site-nav" aria-label="Main"><a class="brand" href="/">Studworks</a><a href="/projects/">Projects</a><a href="/journal/">Journal</a></nav><p class="eyebrow">Made by you</p><h1>Share your build.</h1><p class="tag">Small experiments belong here too. Nothing is published until a moderator reviews it.</p></header>
+<main id="main">
+<p class="intro">No account. No email address. Give your build a name, show us what it does, and tell us what you asked Studworks.</p>
+<form id="submission-form" class="community-form" method="post" action="/api/v1/submissions">
+<label for="title">Build name <input id="title" name="title" required maxlength="120" autocomplete="off" placeholder="A crane that knows when to stop"></label>
+<label for="creator">Published as <span class="small">Optional. A nickname or team name is fine.</span><input id="creator" name="creator" maxlength="80" autocomplete="off" placeholder="Anonymous builder"></label>
+<label for="description">What did you make? <textarea id="description" name="description" required maxlength="3000" rows="4" placeholder="What it does, what you learned, and what you are still working on."></textarea></label>
+<label for="hardware">Hardware used <textarea id="hardware" name="hardware" required maxlength="2000" rows="3" placeholder="City Hub, Technic Large Motor on port A…"></textarea></label>
+<label for="prompt">What you asked Studworks <textarea id="prompt" name="prompt" required maxlength="3000" rows="3" placeholder="Turn the crane 90 degrees slowly."></textarea></label>
+<label for="media-url">Photo or video link <input id="media-url" name="mediaUrl" type="url" required maxlength="2048" placeholder="https://…" autocomplete="off"><span class="small">Use a public HTTPS link you have permission to share. No private folders or access tokens. We do not fetch links before review.</span></label>
+<div class="form-trap" aria-hidden="true"><label for="website">Leave this blank<input id="website" name="website" tabindex="-1" autocomplete="off"></label></div>
+<label class="check-row"><input id="permission" type="checkbox" required><span>I made this build or have permission to share it, and agree that these details and the media link may be published in the Studworks gallery.</span></label>
+<label class="check-row"><input id="privacy" type="checkbox" required><span>I have left out private details and have permission from anyone shown. If a child made the build, a parent, guardian or teacher is submitting it.</span></label>
+<button id="submit-build" type="submit" class="button" disabled>Send for review</button>
+<p id="form-status" role="status" aria-live="polite">Submissions are coming soon. Sending is disabled until the community service is available.</p>
+<noscript><p>This form needs JavaScript. Nothing will be submitted without it.</p></noscript>
+</form>
+<section id="receipt" class="note" hidden><h2>Keep your private receipt.</h2><p>Use this to check the review or withdraw your submission. It is shown only here; without an email address we cannot send it back to you.</p><label for="receipt-link">Private submission link<input id="receipt-link" readonly></label><button id="copy-receipt" type="button" class="button">Copy private link</button><p><a id="open-receipt" href="/projects/submission/">Check this submission</a></p><p class="small">Do not share this link. It gives access to your submission.</p></section>
+<p class="small">Your submitted text, link and permission choices are stored for review; approved details become public. Keep your receipt to withdraw them. Withdrawal removes the live gallery and review content, but cannot erase external media, other people's copies or existing backups. Moderation is not a hardware safety certification. We may decline spam, unsafe instructions or material you do not have permission to share.</p>
+</main><footer><p><a href="/projects/">Back to Projects</a> · <a href="mailto:help@studworks.build">Get help</a></p><p>Free, forever. Not affiliated with the LEGO Group.</p></footer></div></body></html>

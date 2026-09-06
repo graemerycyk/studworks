@@ -16,27 +16,33 @@
 <meta name="twitter:image" content="https://www.studworks.build/og.png">
 <link rel="canonical" href="https://www.studworks.build/">
 <link rel="alternate" type="application/atom+xml" title="Studworks Journal" href="/journal/feed.xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Serif:wght@400;500&amp;display=swap">
+
+
+
 <link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
 </head>
-<body>
+<body class="home">
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="wrap">
 
-  <header>
-    <nav class="site-nav" aria-label="Main"><a class="brand" href="/" aria-current="page">Studworks</a><a href="/projects/">Projects</a><a href="/journal/">Journal</a><a href="#get-it">Get the app</a></nav>
-    <h1>Studworks</h1>
-    <p class="tag">Tell a LEGO machine what to do. It works out the rest.</p>
+  <header class="home-header">
+    <nav class="site-nav" aria-label="Main"><a class="brand" href="/" aria-current="page">Studworks</a><a href="/projects/">Projects</a><a href="/journal/">Journal</a><a href="#mcp">MCP</a><a class="nav-action" href="#get-it">Get the app</a></nav>
+    <div class="hero-intro"><p class="eyebrow">Your bricks. Your ideas. Free, forever.</p><h1>What will you<br><span>bring to life?</span></h1>
+    <p class="tag">Build with LEGO. Describe what it should do.<br>Make something that moves.</p></div>
   </header>
 
   <main id="main">
-  <p style="margin-top:26px">Connect a supported LEGO hub. Studworks finds out what is plugged in,
+  <section class="hero-composer" aria-label="A starting prompt for Studworks">
+    <p class="composer-label">Start with a few words</p><p class="hero-prompt" id="hero-prompt">Turn the motor 90 degrees slowly.</p>
+    <div class="composer-bottom"><div class="copy-row"><button class="button secondary" type="button" data-copy-target="hero-prompt" hidden>Copy prompt</button><span class="copy-status" role="status" aria-live="polite"></span></div><a class="cta" href="#get-it">Explore the beta <span aria-hidden="true">→</span></a></div>
+  </section>
+  <p class="hero-caption">Words become a plan. You decide when it runs.</p>
+  <div class="workflow-example"><p>Connect a supported LEGO hub. Studworks finds out what is plugged in,
   asks about anything it cannot see, turns one plain-language instruction into a small program,
   compiles it on your own device and puts it on the hub.</p>
 
-  <div class="demo">
+  <p class="eyebrow">An example from the workbench</p><div class="demo">
     <span class="app">Connected — City Hub · A: Technic Large Motor · B: empty</span><br>
     <span class="you">&gt; report the battery voltage</span><br>
     <span class="ok">✓ Battery: 8972 mV</span><br>
@@ -45,13 +51,14 @@
     <span class="you">&gt; yes</span><br>
     <span class="ok">✓ Compiled · downloaded · finished safely</span>
   </div>
+  </div>
 
   <h2>Why it is different</h2>
   <p><b>Your words become motion.</b> Tell Studworks one thing you want your LEGO machine to do.
   It looks at the real hardware, creates a small program for the build in front of you, and
   shows you exactly what will run. If anything is unclear, it asks before it acts.</p>
 
-  <ul>
+  <ul class="feature-list">
     <li><b>From idea to action.</b> Describe what you want. Studworks creates the program;
         you decide when to run it.</li>
     <li><b>It knows your build.</b> Motors and sensors are matched to what is actually plugged in,

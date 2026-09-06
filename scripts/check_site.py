@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 PAGE_PATHS = [
     Path("index.html"),
-    *(path.relative_to(ROOT) for section in ("projects", "journal")
+    *(path.relative_to(ROOT) for section in ("projects", "journal", "admin")
       for path in sorted((ROOT / section).rglob("*.html"))),
 ]
 
@@ -48,8 +48,9 @@ class Page(HTMLParser):
         if "data-copy-target" in attrs:
             self.copy_targets.append(attrs["data-copy-target"])
         if tag == "button":
-            assert attrs.get("type") == "button", f"Implicit submit button: {self.path}"
-            assert "hidden" in attrs, f"Copy controls must degrade without JS: {self.path}"
+            assert attrs.get("type") in ("button", "submit"), f"Implicit button type: {self.path}"
+            if "data-copy-target" in attrs:
+                assert "hidden" in attrs, f"Copy controls must degrade without JS: {self.path}"
 
     def handle_endtag(self, tag):
         assert self.stack and self.stack[-1] == tag, f"Misnested {tag} in {self.path}: {self.stack}"
