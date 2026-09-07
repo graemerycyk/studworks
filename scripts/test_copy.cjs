@@ -6,7 +6,7 @@ const path = require("node:path");
 const vm = require("node:vm");
 const source = fs.readFileSync(path.join(__dirname, "../assets/site.js"), "utf8");
 
-function fixture({ link = false, clipboard } = {}) {
+function fixture({ link = false, clipboard, copyText, textContent = "  Report the battery voltage\n" } = {}) {
   const status = { textContent: "" };
   let fallback;
   let onClick;
@@ -24,7 +24,7 @@ function fixture({ link = false, clipboard } = {}) {
   const navigator = { clipboard };
   const document = {
     querySelectorAll: () => [button],
-    getElementById: (id) => { assert.equal(id, "prompt"); return { textContent: "  Report the battery voltage\n" }; },
+    getElementById: (id) => { assert.equal(id, "prompt"); return { textContent, dataset: { copyText } }; },
     createElement: (tag) => {
       assert.equal(tag, "textarea");
       return { attributes: {}, setAttribute(key, value) { this.attributes[key] = value; },
@@ -53,6 +53,14 @@ test("copies the current page URL without query parameters", async () => {
   await f.click();
   assert.equal(copied, "https://www.studworks.build/projects/meet-your-hub/");
   assert.equal(f.status.textContent, "Link copied.");
+});
+
+test("copies the full selected example while its visible text is still typing", async () => {
+  let copied;
+  const f = fixture({ textContent: "Turn th", copyText: "Turn the hub light red.",
+    clipboard: { writeText: async text => { copied = text; } } });
+  await f.click();
+  assert.equal(copied, "Turn the hub light red.");
 });
 
 test("permission denial offers selected, labelled manual copy and can recover", async () => {

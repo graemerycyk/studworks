@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is a Pybricks project? — Studworks Journal</title><meta name="description" content="Understand Pybricks, Python and block-project files, and what Studworks checks without running someone else’s code.">
+<link rel="canonical" href="https://www.studworks.build/journal/understanding-pybricks-files/">
+<meta property="og:title" content="What is a Pybricks project?"><meta property="og:description" content="Understand someone else’s LEGO program before trying to adapt it to your machine."><meta property="og:type" content="article"><meta property="og:url" content="https://www.studworks.build/journal/understanding-pybricks-files/"><meta property="article:published_time" content="2026-09-07">
+<link rel="alternate" type="application/atom+xml" title="Studworks Journal" href="/journal/feed.xml"><link rel="stylesheet" href="/assets/site.css"><script src="/assets/site.js" defer></script>
+</head><body><a class="skip-link" href="#main">Skip to content</a><div class="wrap">
+<header><nav class="site-nav" aria-label="Main"><a class="brand" href="/">Studworks</a><a href="/projects/">Projects</a><a href="/journal/" aria-current="true">Journal</a><a href="/#get-it">Get the app</a></nav><p class="eyebrow">Getting started / Project files</p><h1>What is a Pybricks project?</h1><p class="tag">A LEGO program you can understand before you run it.</p><p class="meta"><time datetime="2026-09-07">7 September 2026</time> · Studworks guide</p></header>
+<main id="main" class="article-body">
+<h2 id="what-is-pybricks">First, what is Pybricks?</h2>
+<p>Pybricks is software for programming compatible LEGO hubs. Studworks uses it on the hub to run the programs you create in words. You don’t need to write Python to use Studworks. If your hub is new to this, start with <a href="/journal/set-up-your-hub/">hub setup</a>.</p>
+<h2 id="file-types">What is in a project file?</h2>
+<p>A project file contains instructions for a build: which devices it uses and what they should do. Pybricks lets builders write Python or arrange visual coding blocks. Its <a href="https://pybricks.com/learn/getting-started/pybricks-environment/">program and file guide</a> explains saving, exporting and viewing the Python behind blocks.</p>
+<ul><li><strong>Python files (<code>.py</code>)</strong> contain readable code.</li><li><strong>Block-project exports</strong> describe connected coding blocks, sometimes alongside Python text. The contents matter, not just the filename ending.</li><li><strong>Studworks projects</strong> are different: they save your build’s intended behaviour, machine notes and versions. Use <strong>Make a shared project your own</strong> to open those.</li></ul>
+<h2 id="inspect">What does “Check a Pybricks project” do?</h2>
+<p>Choose a file or paste its text, then select <strong>Inspect without running</strong>. Studworks looks for devices, motor actions, sensor use and patterns it cannot safely understand. This is a read-only inspection: it does not download the file to a hub or execute its code.</p>
+<p>In the web workbench, selecting a file only loads it into the page. Choosing to inspect sends its contents to the Studworks service. Only inspect files you are comfortable sending. The native app performs its inspection locally.</p>
+<h2 id="limits">Can I run any file I find?</h2>
+<p>No. A program written for another machine might start the wrong motor, turn continuously or depend on a sensor you don’t have. A successful inspection is not a safety certificate.</p>
+<p>Block graphs are currently inspection-only. Python inside a block file must be reviewed separately; Studworks does not assume it matches the blocks. Supported Python can be translated through the native app’s guarded import workflow, but unsupported code is refused. A ZIP backup or binary project cannot be read as a plain text file; export the individual program instead.</p>
+<p>To try an idea from someone else’s build, describe it in your own words or open a shared Studworks project. You’ll still connect your own hub, confirm the devices and approve a fresh program before anything runs.</p>
+<div class="copy-row"><button class="button secondary" type="button" data-copy-link hidden>Copy guide link</button><span class="copy-status" role="status" aria-live="polite"></span></div><a class="back-link" href="/journal/">← All guides and notes</a>
+</main><footer><p>Found a file you don’t understand? <a href="mailto:help@studworks.build">Ask us</a>.</p><p>Free, forever. Not affiliated with Pybricks or the LEGO Group. LEGO® is a trademark of the LEGO Group.</p></footer>
+</div></body></html>

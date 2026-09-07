@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Use Studworks with Claude or ChatGPT — Studworks Journal</title><meta name="description" content="Manual setup for Claude, ChatGPT, Claude Code and Codex, with a browser hub connection or the local Studworks Mac app.">
+<link rel="canonical" href="https://www.studworks.build/journal/use-with-claude-chatgpt/">
+<meta property="og:title" content="Use Studworks with Claude or ChatGPT"><meta property="og:description" content="Connect the app you already use. Stay in charge of what your LEGO machine runs."><meta property="og:type" content="article"><meta property="og:url" content="https://www.studworks.build/journal/use-with-claude-chatgpt/"><meta property="article:published_time" content="2026-09-07">
+<link rel="alternate" type="application/atom+xml" title="Studworks Journal" href="/journal/feed.xml"><link rel="stylesheet" href="/assets/site.css"><script src="/assets/site.js" defer></script>
+</head><body><a class="skip-link" href="#main">Skip to content</a><div class="wrap">
+<header><nav class="site-nav" aria-label="Main"><a class="brand" href="/">Studworks</a><a href="/projects/">Projects</a><a href="/journal/" aria-current="true">Journal</a><a href="/#get-it">Get the app</a></nav><p class="eyebrow">Getting started / Connected apps</p><h1>Use Studworks with Claude or ChatGPT.</h1><p class="tag">Keep the conversation. Connect your LEGO machine.</p><p class="meta"><time datetime="2026-09-07">7 September 2026</time> · Setup steps checked against provider documentation</p></header>
+<main id="main" class="article-body">
+<p>Studworks gives a compatible assistant tools to understand your build, prepare projects and read results. You may see these connections called <strong>MCP servers</strong>, <strong>connectors</strong> or <strong>plugins</strong>. MCP is simply the shared language the apps use to work together.</p>
+<p><strong>Release status:</strong> the hosted connection and new Mac beta are being prepared. This guide covers manual setup for that release; Studworks is not yet an official directory integration. Cloud and real-hub checks still need completing.</p>
+<nav aria-label="In this guide"><a href="#claude">Claude</a> · <a href="#chatgpt">ChatGPT</a> · <a href="#terminal">Terminal tools</a> · <a href="#hub-permission">Hub permission</a></nav>
+<h2 id="cloud-address">For Claude or ChatGPT in the browser</h2>
+<p>The hosted beta will use this server address. It is a connection setting—not something to paste into your conversation:</p>
+<div class="demo"><code id="hosted-mcp-address">https://www.studworks.build/mcp</code></div>
+<div class="copy-row"><button class="button secondary" type="button" data-copy-target="hosted-mcp-address" hidden>Copy server address</button><span class="copy-status" role="status" aria-live="polite"></span></div>
+<p>You can plan without a hub. To use hardware, you also need a nearby compatible hub, <a href="/journal/set-up-your-hub/">Pybricks installed</a>, and a desktop Chrome window connecting to it. Claude or ChatGPT cannot reach Bluetooth on your desk by itself.</p>
+<h2 id="claude">Set up Claude</h2>
+<ol><li>Open Claude’s <strong>Customize → Connectors</strong> page. Choose <strong>+</strong>, then <strong>Add custom connector</strong>.</li><li>Name it <strong>Studworks</strong> and enter the server address above.</li><li>Choose the connector’s connection action and follow the permission screen. For hardware, continue with <a href="#hub-permission">the hub steps below</a>.</li><li>In your conversation, enable Studworks through <strong>+ → Connectors</strong>.</li></ol>
+<p>If you use a managed workspace, its owner may need to add the connector first. Menu labels and access can vary. See <a href="https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp">Claude’s current custom-connector instructions</a>.</p>
+<h2 id="chatgpt">Set up ChatGPT</h2>
+<ol><li>In ChatGPT settings, open <strong>Security and login</strong> and enable <strong>Developer mode</strong>, if available.</li><li>Open <strong>Plugins</strong> and choose <strong>+</strong>. Add the name <strong>Studworks</strong> and a short description such as “Plan and operate my LEGO builds”.</li><li>Under <strong>Connection</strong>, enter the server address above. Create the connection and review the available tools.</li><li>Use the connection’s authorization flow for hardware access, then add Studworks from the tools menu in a new conversation.</li></ol>
+<p>Developer mode can depend on your account and workspace policy. If it is missing, check <a href="https://developers.openai.com/plugins/deploy/connect-chatgpt">OpenAI’s current manual connection guide</a>; a website URL pasted into a chat does not install a connector.</p>
+<h2 id="hub-permission">Let your chat use this hub</h2>
+<ol><li>When the connection opens Studworks, keep that page visible in its own Chrome window.</li><li>Choose <strong>Connect your hub</strong> and select your LEGO hub. Only continue if you started this connection; check the requesting app and return address.</li><li>Review the requested access, tick the confirmation and choose <strong>Allow connection</strong>.</li><li>Choose <strong>Return to your chat</strong>. Keep both windows visible. If your browser blocks the new window, allow pop-ups for Studworks and try again.</li></ol>
+<p>This grants temporary access for up to 30 minutes. It does <strong>not</strong> approve movement. The assistant can prepare a program or ask to run it; you check the exact program and choose <strong>Approve and run once</strong> beside the hub. The hub check may move a motor and needs its own confirmation.</p>
+<p>Start with <strong>“Report the battery voltage.”</strong> Save or export projects you want to keep. Hiding or closing the hub window ends access and sends a stop request. Keep the physical stop button within reach if the connection fails. Phone background control is not supported.</p>
+<h2 id="terminal">Claude Code or Codex on your Mac</h2>
+<p>For terminal tools, use the <strong>local connection</strong> bundled with the Studworks Mac app. It keeps Bluetooth in the app and does not need the browser window or the hosted service. Keep Studworks open in Applications and choose <strong>Enable local MCP</strong> under <strong>External AI / MCP</strong>.</p>
+<p>With Claude Code installed, add the helper:</p>
+<div class="demo"><code id="claude-command">claude mcp add --transport stdio --scope user studworks -- /Applications/Studworks.app/Contents/Helpers/studworks-mcp</code></div>
+<div class="copy-row"><button class="button secondary" type="button" data-copy-target="claude-command" hidden>Copy Claude Code setup</button><span class="copy-status" role="status" aria-live="polite"></span></div>
+<p>Use <code>/mcp</code> in Claude Code to check the connection. See <a href="https://code.claude.com/docs/en/mcp">Claude Code’s MCP guide</a>.</p>
+<p>With Codex installed, add the same helper:</p>
+<div class="demo"><code id="codex-command">codex mcp add studworks -- /Applications/Studworks.app/Contents/Helpers/studworks-mcp</code></div>
+<div class="copy-row"><button class="button secondary" type="button" data-copy-target="codex-command" hidden>Copy Codex setup</button><span class="copy-status" role="status" aria-live="polite"></span></div>
+<p>Use <code>codex mcp list</code> to check it. OpenAI also documents <a href="https://learn.chatgpt.com/docs/extend/mcp">adding local MCP servers through the desktop app’s settings</a>. A local terminal configuration does not add the connection to ChatGPT on the web.</p>
+<p>Keep the helper inside its matching Studworks app. If you installed it elsewhere, change the path. Use the app’s <strong>Copy MCP configuration</strong> for clients that accept JSON. Never paste passwords or access tokens into a conversation. Approvals still happen in Studworks, not in the terminal.</p>
+<h2 id="privacy">What leaves my device?</h2>
+<p>The browser connection sends project text, selected hub details and results through Studworks’ service and your chosen assistant. The local helper does not need Studworks’ cloud service, but your assistant may still process conversations online. Its subscription and privacy terms are separate. Studworks remains free, with no builder account to create.</p>
+<div class="copy-row"><button class="button secondary" type="button" data-copy-link hidden>Copy guide link</button><span class="copy-status" role="status" aria-live="polite"></span></div><a class="back-link" href="/journal/">← All guides and notes</a>
+</main><footer><p>Stuck connecting? <a href="mailto:help@studworks.build">Get help</a>.</p><p>Free, forever. Studworks is independent of Anthropic, OpenAI, Pybricks and the LEGO Group. LEGO® is a trademark of the LEGO Group.</p></footer>
+</div></body></html>

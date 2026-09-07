@@ -6,8 +6,9 @@ document.querySelectorAll("[data-copy-target], [data-copy-link]").forEach((butto
     const row = button.closest(".copy-row");
     const status = row.querySelector(".copy-status");
     const target = button.dataset.copyTarget;
+    const element = target ? document.getElementById(target) : null;
     const text = target
-      ? document.getElementById(target).textContent.trim()
+      ? (element.dataset?.copyText ?? element.textContent).trim()
       : new URL(window.location.pathname, window.location.origin).href;
     button.disabled = true;
     try {

@@ -69,7 +69,7 @@ You do not need Xcode, Swift or the source checkout. These instructions apply to
 the bundled Mac app; the first public beta download is being prepared.
 
 1. Install the Studworks Mac app in Applications and open it.
-2. Enable **External AI control** in Studworks. If macOS asks, grant Bluetooth
+2. Choose **Enable local MCP** under **External AI / MCP** in Studworks. If macOS asks, grant Bluetooth
    permission to **Studworks**, not to the AI app.
 3. Configure your AI app to launch the bundled helper as a **local stdio MCP
    server**, with no arguments. For clients using the common JSON format:
@@ -114,6 +114,18 @@ may process conversations through its own service. That client's plan, charges,
 and privacy terms are separate from Studworks. Studworks itself remains free.
 
 ## Studworks 0.1.0 Beta
+
+### Getting started guides
+
+- [Set up your LEGO hub](https://www.studworks.build/journal/set-up-your-hub/)
+- [Use with Claude, ChatGPT or terminal tools](https://www.studworks.build/journal/use-with-claude-chatgpt/)
+- [Understand Pybricks project files](https://www.studworks.build/journal/understanding-pybricks-files/)
+
+The connection guide distinguishes the upcoming hosted beta from the bundled
+local Mac helper. It does not claim an official directory listing or completed
+host/hardware qualification.
+
+### Beta package
 
 The first beta is one Apple-silicon Mac download containing the app, its local
 model and the matching MCP helper. No separate server installation or paid
@@ -173,6 +185,7 @@ Local checks and an optional public-assets-only package:
 ```sh
 python3 scripts/check_site.py
 node --test scripts/test_copy.cjs
+node --test scripts/test_hero_examples.cjs
 node --test scripts/test_community.mjs
 python3 scripts/build_site.py
 python3 -m http.server 8766 --bind 127.0.0.1 --directory dist
