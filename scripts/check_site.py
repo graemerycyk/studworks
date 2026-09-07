@@ -91,9 +91,13 @@ def check():
     readme = (ROOT / "README.md").read_text()
     for route in ("privacy", "terms"):
         policy = (ROOT / route / "index.html").read_text()
-        assert "Draft for approval" in policy and 'content="noindex"' in policy, "Unapproved policy drafts must remain clearly marked and unindexed"
+        assert "Effective 7 September 2026" in policy, "Keep the owner-approved policy effective date"
+        assert "Draft for approval" not in policy and 'content="noindex"' not in policy, "Approved policy pages must not retain draft-only markers"
         assert "<strong>studworks.build</strong>" in policy and "<strong>Belgium</strong>" in policy, "Policies must retain the owner-supplied service name and country"
-        assert "legal person or business" in policy, "A service name must not silently become a verified legal identity"
+        assert "provided under the name" in policy, "Do not imply the service name is a verified registered company"
+        assert "not yet publicly available" in policy, "Policy approval must not announce an online-service launch"
+        assert "(draft)" not in policy
+    assert "Privacy (draft)" not in home and "Terms (draft)" not in home
     for content in (home, readme):
         assert "/Applications/Studworks.app/Contents/Helpers/studworks-mcp" in content, "MCP must use the bundled helper"
         assert "source-only" not in content and "swift build --package-path StudworksMCP" not in content, "Retired MCP setup must not return"

@@ -149,13 +149,13 @@ the most useful thing you can do.
 
 ## Projects and Journal
 
-The `/privacy/` and `/terms/` pages are drafts for operator approval, not effective
-legal notices. They remain marked as drafts and `noindex` until identity,
-permissions, legal bases and production data handling are confirmed. Publishing
-the software does not approve these policies.
-The owner has supplied **studworks.build — Belgium** for the service name and
-country. The legal person or business responsible and its contact address remain
-to be confirmed; privacy/support contact is **help@studworks.build**.
+The owner approved `/privacy/` and `/terms/`, effective **7 September 2026**.
+They identify **studworks.build — Belgium**, with **help@studworks.build** for
+privacy/support. Draft labels and `noindex` were removed. The policies distinguish
+the current GitHub Pages website from online services that are not yet available;
+approval does not announce the DigitalOcean launch or certify legal compliance.
+Operator identity/contact details and actual production processing arrangements
+remain part of the deployment and directory-submission review.
 
 The website has two lightweight editorial sections:
 
