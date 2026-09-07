@@ -3,9 +3,13 @@
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+import re
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
+# Exact sibling-component entry points on the combined DigitalOcean origin.
+# The private deployment preflight verifies these against its shipped web app.
+SERVICE_PAGES = {"/app/", "/app/connect.html"}
 PAGE_PATHS = [
     Path("index.html"),
     *(path.relative_to(ROOT) for section in ("projects", "journal", "admin", "privacy", "terms")
@@ -59,8 +63,11 @@ class Page(HTMLParser):
 
 def check():
     pages = {ROOT / path: Page(ROOT / path) for path in PAGE_PATHS}
+    shared_footer = (ROOT / "scripts/footer.html").read_text().strip()
     titles = set()
     for path, page in pages.items():
+        footers = re.findall(r"<footer\b[^>]*>[\s\S]*?</footer>", path.read_text())
+        assert len(footers) == 1 and footers[0] == shared_footer, f"Footer must match scripts/footer.html: {path}"
         assert page.tags.count("h1") == 1, f"Expected one h1: {path}"
         assert page.tags.count("main") == 1, f"Expected one main landmark: {path}"
         assert page.meta.get("description") and page.meta.get("viewport"), f"Missing metadata: {path}"
@@ -75,6 +82,8 @@ def check():
             assert url.scheme not in ("javascript", "data"), f"Unsafe URL: {path}: {link}"
             if url.scheme or url.netloc:
                 assert url.scheme in ("https", "mailto"), f"Unexpected external URL: {link}"
+                continue
+            if tag == "a" and url.path in SERVICE_PAGES and not url.query and not url.fragment:
                 continue
             resolved = ROOT / unquote(url.path).lstrip("/") if url.path.startswith("/") else path.parent / unquote(url.path)
             if not url.path:

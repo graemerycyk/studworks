@@ -12,8 +12,8 @@
 <link rel="stylesheet" href="/assets/site.css"><link rel="stylesheet" href="/assets/community.css">
 <script type="module" src="/assets/submission.mjs"></script>
 </head>
-<body><a class="skip-link" href="#main">Skip to submission</a><div class="wrap">
-<header class="compact-header"><nav class="site-nav" aria-label="Main"><a class="brand" href="/">Studworks</a><a href="/projects/">Projects</a><a href="/journal/">Journal</a></nav><p class="eyebrow">Made by you</p><h1>Share your build.</h1><p class="tag">Small experiments belong here too. Nothing is published until a moderator reviews it.</p></header>
+<body class="content-page projects-page"><a class="skip-link" href="#main">Skip to submission</a><div class="wrap">
+<header class="compact-header"><nav class="site-nav" aria-label="Main"><a class="brand" href="/">Studworks</a><a href="/app/">Web app</a><a href="/projects/">Projects</a><a href="/journal/">Journal</a></nav><p class="eyebrow">Made by you</p><h1>Share your build.</h1><p class="tag">Small experiments belong here too. Nothing is published until a moderator reviews it.</p></header>
 <main id="main">
 <p class="intro">No account. No email address. Give your build a name, show us what it does, and tell us what you asked Studworks.</p>
 <form id="submission-form" class="community-form" method="post" action="/api/v1/submissions">
@@ -34,4 +34,11 @@
 </form>
 <section id="receipt" class="note" hidden><h2>Keep your private receipt.</h2><p>Use this to check the review or withdraw your submission. It is shown only here; without an email address we cannot send it back to you.</p><label for="receipt-link">Private submission link<input id="receipt-link" readonly></label><button id="copy-receipt" type="button" class="button">Copy private link</button><p><a id="open-receipt" href="/projects/submission/">Check this submission</a></p><p class="small">Do not share this link. It gives access to your submission.</p></section>
 <p class="small">Your submitted text, links, optional credit and permission choices are stored for review; approved details become public. Sharing does not enrol your project in model training. Keep your receipt to withdraw it. Withdrawal removes the live gallery and review content, but cannot erase external media, other people's copies or existing backups. Moderation is not a hardware safety certification. We may decline spam, unsafe instructions or material you do not have permission to share.</p>
-</main><footer><p><a href="/projects/">Back to Projects</a> · <a href="mailto:help@studworks.build">Get help</a></p><p>Free, forever. Not affiliated with the LEGO Group.</p></footer></div></body></html>
+</main><footer class="site-footer">
+  <p><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="mailto:help@studworks.build">Get help</a></p>
+  <p><a href="/">Studworks</a> · <a href="/projects/">Projects</a> · <a href="/journal/">Journal</a> · <a href="/projects/#share">Share a build</a></p>
+  <p><a href="/app/">Web app</a> · <a href="/journal/use-with-claude-chatgpt/">Use with Claude or ChatGPT</a> · <a href="/journal/set-up-your-hub/">Set up your hub</a></p>
+  <p>studworks.build · Free, forever.</p>
+  <p>Not affiliated with, endorsed by, or sponsored by the LEGO Group. LEGO® is a trademark of the LEGO Group.</p>
+  <p>Not affiliated with the Pybricks project. Includes the MicroPython cross-compiler, MIT licensed.</p>
+</footer></div></body></html>

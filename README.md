@@ -147,6 +147,27 @@ and privacy terms are separate from Studworks. Studworks itself remains free.
 
 ### Getting started guides
 
+On the combined DigitalOcean site, choose **Open web app** on the homepage or
+**Web app** in the navigation/shared footer. The routes are:
+
+| Destination | Same-origin path |
+| --- | --- |
+| Web app | `/app/` |
+| Claude/ChatGPT setup guide | `/journal/use-with-claude-chatgpt/` |
+| Browser hub connection | `/app/connect.html` |
+| First-time hub setup | `/journal/set-up-your-hub/` |
+
+The connection guide copies the current HTTPS deployment's `/mcp` address,
+including a generated DigitalOcean staging domain. Local HTTP retains the public
+address as a fallback. `/mcp` is a protocol setting, not a webpage. Hardware
+authorization starts from the chosen chat host; opening the hub page alone does
+not authorize that chat or approve a run. OAuth must first be configured and
+qualified by the operator.
+
+These links are ready for the combined deployment, not a new GitHub Pages
+publication: Pages alone cannot serve `/app/` or the API. Keep this review
+branch off Pages `main` until the hosting migration is ready.
+
 - [Set up your LEGO hub](https://www.studworks.build/journal/set-up-your-hub/)
 - [Use with Claude, ChatGPT or terminal tools](https://www.studworks.build/journal/use-with-claude-chatgpt/)
 - [Understand Pybricks project files](https://www.studworks.build/journal/understanding-pybricks-files/)
@@ -215,11 +236,21 @@ it to the submission form.
 
 ### Maintaining the website
 
-The site stays plain HTML/CSS/JavaScript. Its static content remains compatible
-with the existing root-based GitHub Pages deployment; the intended DigitalOcean
-migration adds the same-origin submission/moderation backend. Pages
-share `assets/site.css`; `assets/site.js` only adds clipboard buttons with a
-selectable-text fallback. Core content and navigation work without JavaScript.
+The site stays plain HTML/CSS/JavaScript. Its editorial content can be served
+statically; web-app links and the submission/moderation backend require the
+combined DigitalOcean origin. Pages share `assets/site.css`, including the
+colourful Projects/Journal shell. `assets/site.js` adds clipboard controls with a
+selectable-text fallback and resolves the MCP address on HTTPS deployments.
+Core content and navigation work without JavaScript. The homepage cycles through
+five typed examples, with a static reduced-motion alternative; its old Pause
+examples and Copy prompt controls have been removed.
+
+All 18 website pages embed the exact footer from `scripts/footer.html`. When
+changing it, update each page; `scripts/check_site.py` rejects drift. The template
+is build-time source, not a browser dependency or public asset. Static checks
+allow only the explicit sibling routes `/app/` and `/app/connect.html`; the app
+repository's deployment preflight checks the actual shipped targets in both
+directions, including page fragments.
 
 Local checks and an optional public-assets-only package:
 

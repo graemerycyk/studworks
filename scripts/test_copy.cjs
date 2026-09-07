@@ -6,7 +6,7 @@ const path = require("node:path");
 const vm = require("node:vm");
 const source = fs.readFileSync(path.join(__dirname, "../assets/site.js"), "utf8");
 
-function fixture({ link = false, clipboard, copyText, textContent = "  Report the battery voltage\n" } = {}) {
+function fixture({ link = false, clipboard, copyText, textContent = "  Report the battery voltage\n", serverAddress = false, origin = "https://www.studworks.build" } = {}) {
   const status = { textContent: "" };
   let fallback;
   let onClick;
@@ -17,14 +17,15 @@ function fixture({ link = false, clipboard, copyText, textContent = "  Report th
   const button = {
     hidden: true,
     disabled: false,
-    dataset: link ? {} : { copyTarget: "prompt" },
+    dataset: link ? {} : { copyTarget: "prompt", ...(serverAddress ? { copySuccess: "Server address copied.", copyLabel: "Server address to copy manually" } : {}) },
     closest: () => row,
     addEventListener: (event, callback) => { assert.equal(event, "click"); onClick = callback; },
   };
   const navigator = { clipboard };
+  const target = { textContent, dataset: { copyText } };
   const document = {
-    querySelectorAll: () => [button],
-    getElementById: (id) => { assert.equal(id, "prompt"); return { textContent, dataset: { copyText } }; },
+    querySelectorAll: selector => selector === '[data-deployment-mcp]' ? (serverAddress ? [target] : []) : [button],
+    getElementById: (id) => { assert.equal(id, "prompt"); return target; },
     createElement: (tag) => {
       assert.equal(tag, "textarea");
       return { attributes: {}, setAttribute(key, value) { this.attributes[key] = value; },
@@ -32,9 +33,27 @@ function fixture({ link = false, clipboard, copyText, textContent = "  Report th
     },
   };
   vm.runInNewContext(source, { document, navigator, URL,
-    window: { location: { origin: "https://www.studworks.build", pathname: "/projects/meet-your-hub/", search: "?private=discard" } } });
-  return { button, status, navigator, click: () => onClick(), fallback: () => fallback };
+    window: { location: { origin, pathname: "/projects/meet-your-hub/", search: "?private=discard", hash: "#private-token" } } });
+  return { button, status, navigator, target, click: () => onClick(), fallback: () => fallback };
 }
+
+test("server address copies the current HTTPS origin without credentials or canonical-host escapes", async () => {
+  for (const origin of ["https://studworks-beta.example.ondigitalocean.app", "https://studworks.build"]) {
+    let copied;
+    const f = fixture({ origin, serverAddress: true, textContent: "https://www.studworks.build/mcp", clipboard: { writeText: async text => { copied = text; } } });
+    assert.equal(f.target.textContent, origin + "/mcp");
+    await f.click();
+    assert.equal(copied, origin + "/mcp");
+    assert.equal(f.status.textContent, "Server address copied.");
+  }
+});
+
+test("local HTTP keeps the public address and manual server copy is labelled correctly", async () => {
+  const f = fixture({ origin: "http://127.0.0.1:60040", serverAddress: true, textContent: "https://www.studworks.build/mcp" });
+  await f.click();
+  assert.equal(f.fallback().value, "https://www.studworks.build/mcp");
+  assert.equal(f.fallback().attributes["aria-label"], "Server address to copy manually");
+});
 
 test("copies the exact prompt and announces success", async () => {
   let copied;

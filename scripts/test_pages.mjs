@@ -1,9 +1,96 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 
 const publicSource = name => readFile(new URL('../' + name, import.meta.url), 'utf8');
 const plainText = value => value.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ');
+
+test('website entry points lead to the web app and guided chat connection on the same deployment', async () => {
+  const home = await publicSource('index.html');
+  assert.match(home, /class="cta" href="\/app\/">Open web app/);
+  const guide = await publicSource('journal/use-with-claude-chatgpt/index.html');
+  for (const html of [home, guide]) {
+    for (const path of ['/app/', '/app/connect.html', '/journal/use-with-claude-chatgpt/']) {
+      assert.ok(html.includes(`href="${path}"`));
+      assert.equal(new URL(path, 'https://beta.example.ondigitalocean.app').origin, 'https://beta.example.ondigitalocean.app');
+    }
+    assert.doesNotMatch(html, /href="\/mcp"/); // A protocol setting is not a page.
+  }
+  assert.match(guide, /id="hosted-mcp-address" data-deployment-mcp/);
+  assert.match(guide, /opening the hub page alone does not authorize a chat session/);
+  assert.match(guide, /rel="canonical" href="https:\/\/www.studworks.build\/journal\/use-with-claude-chatgpt\/"/);
+});
+
+test('every website page has the same static footer and safe fixed navigation', async () => {
+  const footer = (await publicSource('scripts/footer.html')).trim();
+  const pages = ['index.html'];
+  for (const section of ['projects', 'journal', 'admin', 'privacy', 'terms']) {
+    for (const path of await readdir(new URL('../' + section + '/', import.meta.url), { recursive: true })) {
+      if (path.endsWith('.html')) pages.push(section + '/' + path);
+    }
+  }
+  for (const path of pages) {
+    const html = await publicSource(path);
+    assert.deepEqual(html.match(/<footer\b[^>]*>[\s\S]*?<\/footer>/g), [footer], path);
+  }
+  assert.deepEqual([...footer.matchAll(/href="([^"]+)"/g)].map(match => match[1]),
+    ['/privacy/', '/terms/', 'mailto:help@studworks.build', '/', '/projects/', '/journal/', '/projects/#share', '/app/', '/journal/use-with-claude-chatgpt/', '/journal/set-up-your-hub/']);
+  assert.doesNotMatch(footer, /<script|<input|<button|data-copy-link/);
+  assert.match(footer, /Free, forever/);
+  assert.match(footer, /Not affiliated with, endorsed by, or sponsored by the LEGO Group/);
+  assert.match(footer, /Not affiliated with the Pybricks project/);
+  assert.match(footer, /MicroPython cross-compiler, MIT licensed/);
+  assert.match(await publicSource('admin/verify/index.html'), /Private moderator access\. No builder accounts\./);
+  assert.match(await publicSource('journal/use-with-claude-chatgpt/index.html'), /independent of Anthropic and OpenAI/);
+  assert.match(await publicSource('projects/build/index.html'), /Report a concern/);
+  for (const path of ['meet-your-hub', 'quarter-turn']) {
+    assert.match(await publicSource('projects/' + path + '/index.html'), /href="\/journal\/first-city-hub-tests\/"/);
+  }
+  assert.match(await publicSource('projects/railway-crossing/index.html'), /href="\/journal\/projects-should-travel\/"/);
+});
+
+test('all Projects and Journal routes opt into the shared colourful shell', async () => {
+  for (const section of ['projects', 'journal']) {
+    const paths = (await readdir(new URL('../' + section + '/', import.meta.url), { recursive: true }))
+      .filter(path => path.endsWith('.html'));
+    assert.ok(paths.includes('index.html'));
+    for (const path of paths) {
+      const html = await publicSource(section + '/' + path);
+      assert.match(html, new RegExp(`<body class="content-page ${section}-page">`), `${section}/${path}`);
+      assert.match(html, /href="\/assets\/site.css"/);
+      assert.match(html, /class="skip-link"/);
+    }
+  }
+  for (const path of ['admin/index.html', 'privacy/index.html', 'terms/index.html']) {
+    assert.doesNotMatch(await publicSource(path), /class="content-page/);
+  }
+  const css = await publicSource('assets/site.css');
+  assert.match(css, /\.home,\.content-page\{background:linear-gradient/);
+  assert.match(css, /\.content-page :is\(\.project-card,\.journal-entry\)/);
+  assert.match(css, /\.content-page \.article-body\{/);
+  assert.match(css, /\.content-page \.community-form\{/);
+  assert.match(css, /\[hidden\]\{display:none!important\}/);
+  assert.match(css, /:focus-visible\{outline:3px solid var\(--accent\)/);
+});
+
+test('content palette keeps readable text on the new light surfaces', async () => {
+  const css = await publicSource('assets/site.css');
+  const colors = new Map([...css.matchAll(/--([a-z-]+):(#\w{6})\b/g)].map(match => [match[1], match[2]]));
+  const luminance = hex => {
+    const rgb = hex.slice(1).match(/../g).map(pair => parseInt(pair, 16) / 255)
+      .map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+    return rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722;
+  };
+  const contrast = (foreground, background) => {
+    const values = [luminance(colors.get(foreground)), luminance(colors.get(background))];
+    assert.ok((Math.max(...values) + 0.05) / (Math.min(...values) + 0.05) >= 4.5,
+      `${foreground} on ${background} must retain readable contrast`);
+  };
+  for (const surface of ['panel', 'ground', 'blue-soft', 'ok-soft', 'yellow-soft', 'red-soft']) {
+    for (const foreground of ['ink', 'soft', 'accent', 'ok']) contrast(foreground, surface);
+  }
+  contrast('ink', 'yellow');
+});
 
 test('homepage and README align implemented builder workflows with the upcoming release', async () => {
   for (const name of ['README.md', 'index.html']) {
