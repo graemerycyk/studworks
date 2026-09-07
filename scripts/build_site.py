@@ -9,7 +9,7 @@ def build():
     check()
     output = ROOT / "dist"
     files = [ROOT / name for name in ("index.html", "og.png", "CNAME")]
-    for name in ("assets", "projects", "journal", "admin"):
+    for name in ("assets", "projects", "journal", "admin", "privacy", "terms"):
         files.extend(path for path in (ROOT / name).rglob("*") if path.is_file())
     # Use a strict allowlist: source control, scripts, README and private app files
     # never enter the published artifact. Fail if an old build has unexpected files.

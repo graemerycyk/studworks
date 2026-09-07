@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 PAGE_PATHS = [
     Path("index.html"),
-    *(path.relative_to(ROOT) for section in ("projects", "journal", "admin")
+    *(path.relative_to(ROOT) for section in ("projects", "journal", "admin", "privacy", "terms")
       for path in sorted((ROOT / section).rglob("*.html"))),
 ]
 
@@ -89,6 +89,11 @@ def check():
     assert "Not available in this beta" in concept and "data-copy-target" not in concept
     home = (ROOT / "index.html").read_text()
     readme = (ROOT / "README.md").read_text()
+    for route in ("privacy", "terms"):
+        policy = (ROOT / route / "index.html").read_text()
+        assert "Draft for approval" in policy and 'content="noindex"' in policy, "Unapproved policy drafts must remain clearly marked and unindexed"
+        assert "<strong>studworks.build</strong>" in policy and "<strong>Belgium</strong>" in policy, "Policies must retain the owner-supplied service name and country"
+        assert "legal person or business" in policy, "A service name must not silently become a verified legal identity"
     for content in (home, readme):
         assert "/Applications/Studworks.app/Contents/Helpers/studworks-mcp" in content, "MCP must use the bundled helper"
         assert "source-only" not in content and "swift build --package-path StudworksMCP" not in content, "Retired MCP setup must not return"

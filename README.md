@@ -9,6 +9,8 @@ compiles it on your device, and puts it on the hub.
 **It is free, forever.** Not a trial.
 
 **For Mac, iPad and iPhone.** Chrome support is planned.
+The iPhone and iPad apps (iOS/iPadOS) are planned for later in September 2026,
+subject to Apple review.
 
 The Studworks app works offline. No account, API key, or Studworks server is
 required, and what you type in the app stays on your device.
@@ -24,7 +26,10 @@ required, and what you type in the app stays on your device.
 
 The beta focuses on explicit, bounded actions. The next candidate adds saved
 machine details, portable projects, version history and exact corrections such
-as “Make the lift motor 20% slower”. Free-form corrections, sensor automation
+as “Make the lift motor 20% slower”, “turn 45 degrees instead” and “wait two seconds
+longer”. Exact edits show a before/after review and ask which step when ambiguous.
+The web workbench also has device-local autosave, a project library and machine
+detail editing; it does not need a builder account. Free-form corrections, sensor automation
 and continuous control remain outside the supported surface.
 
 ## Why it is different
@@ -134,8 +139,8 @@ Studworks service. **It is free, forever.** Not a trial.
 The beta download is coming next, after final device checks and Mac release
 packaging. It will appear on the
 [releases page](https://github.com/graemerycyk/studworks/releases) as
-`v0.1.0-beta.1` (app version `0.1.0`). iPad and iPhone builds are still being tested;
-Chrome support is planned.
+`v0.1.0-beta.1` (app version `0.1.0`). iPhone and iPad (iOS/iPadOS) are planned
+for later in September 2026, subject to Apple review. Chrome support is planned.
 
 **Early.** Studworks is being built in the open and is not finished. If you try it
 and it does something daft, email [help@studworks.build](mailto:help@studworks.build)
@@ -143,6 +148,14 @@ or [open an issue](https://github.com/graemerycyk/studworks/issues). Telling me 
 the most useful thing you can do.
 
 ## Projects and Journal
+
+The `/privacy/` and `/terms/` pages are drafts for operator approval, not effective
+legal notices. They remain marked as drafts and `noindex` until identity,
+permissions, legal bases and production data handling are confirmed. Publishing
+the software does not approve these policies.
+The owner has supplied **studworks.build — Belgium** for the service name and
+country. The legal person or business responsible and its contact address remain
+to be confirmed; privacy/support contact is **help@studworks.build**.
 
 The website has two lightweight editorial sections:
 
