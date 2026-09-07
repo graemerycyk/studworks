@@ -2,6 +2,49 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
+const publicSource = name => readFile(new URL('../' + name, import.meta.url), 'utf8');
+const plainText = value => value.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ');
+
+test('homepage and README align implemented builder workflows with the upcoming release', async () => {
+  for (const name of ['README.md', 'index.html']) {
+    const source = await publicSource(name), copy = plainText(source);
+    for (const label of ['guided setup', 'New project using this machine', 'Share current version', 'Download full backup']) {
+      assert.ok(copy.toLowerCase().includes(label.toLowerCase()), `${name}: ${label}`);
+    }
+    assert.match(copy, /next beta/);
+    assert.match(copy, /September 2026, subject to Apple review/);
+    assert.doesNotMatch(source, /finished safely|v0\.1\.0-beta\.1/);
+  }
+  assert.match(await publicSource('README.md'), /public download and hosted service are still awaiting release/);
+  assert.match(await publicSource('index.html'), /program finished/);
+});
+
+test('hub and connected-app guides separate non-moving checks from motor approval', async () => {
+  for (const name of ['journal/set-up-your-hub/index.html', 'journal/use-with-claude-chatgpt/index.html']) {
+    const copy = plainText(await publicSource(name));
+    assert.match(copy, /non-moving/);
+    assert.match(copy, /separate.*approv(?:al|ing)/);
+    assert.doesNotMatch(copy, /(?:check|self-test|test) (?:may|can) move a motor/);
+  }
+  const setup = plainText(await publicSource('journal/set-up-your-hub/index.html'));
+  assert.match(setup, /15°/); assert.match(setup, /100°\/s/);
+});
+
+test('project-sharing journal preserves its original date and dates the implementation update', async () => {
+  const article = await publicSource('journal/projects-should-travel/index.html');
+  assert.match(article, /datetime="2026-09-05"/);
+  assert.match(article, /Update — <time datetime="2026-09-07"/);
+  assert.match(article, /href="\/projects\/submit\/"/);
+  assert.match(article, /Direct publishing from the app remains future work/);
+  assert.match(article, /public beta and hosted features still await release/);
+  const feed = await publicSource('journal/feed.xml');
+  const entry = [...feed.matchAll(/<entry>[\s\S]*?<\/entry>/g)]
+    .map(match => match[0]).find(value => value.includes('<title>A project should travel. Permission should not.</title>'));
+  assert.ok(entry);
+  assert.match(entry, /<published>2026-09-05/);
+  assert.match(entry, /<updated>2026-09-07/);
+});
+
 const routes = [
   ['moderation', 'admin/index.html', 'send-link'],
   ['receipt', 'projects/submission/index.html', 'check-receipt'],

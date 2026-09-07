@@ -2,18 +2,21 @@
 
 **Tell a LEGO machine what to do. It works out the rest.**
 
-Connect a supported LEGO hub. Studworks finds out what is plugged in, asks about
+Connect a supported LEGO hub. The native Studworks app finds out what is plugged in, asks about
 anything it cannot see, turns one plain-language instruction into a small program,
 compiles it on your device, and puts it on the hub.
 
 **It is free, forever.** Not a trial.
 
-**For Mac, iPad and iPhone.** Chrome support is planned.
+**For Mac, iPad and iPhone, with a Chrome web app coming soon.** The browser
+workbench is implemented and awaiting deployment and device checks.
 The iPhone and iPad apps (iOS/iPadOS) are planned for later in September 2026,
 subject to Apple review.
 
-The Studworks app works offline. No account, API key, or Studworks server is
-required, and what you type in the app stays on your device.
+The normal native-app workflow works offline. No account, API key, or Studworks
+server is required, and instructions are processed on your device. The optional
+web workbench uses Studworks' hosted service for planning and compilation;
+external AI apps have their own privacy terms. None requires a Studworks builder account.
 
 ## What it does
 
@@ -24,13 +27,32 @@ required, and what you type in the app stays on your device.
 - Asks when a motor's purpose is unclear and rejects instructions it cannot
   interpret safely instead of guessing.
 
-The beta focuses on explicit, bounded actions. The next candidate adds saved
+The beta focuses on explicit, bounded actions. The current source includes saved
 machine details, portable projects, version history and exact corrections such
 as “Make the lift motor 20% slower”, “turn 45 degrees instead” and “wait two seconds
 longer”. Exact edits show a before/after review and ask which step when ambiguous.
 The web workbench also has device-local autosave, a project library and machine
-detail editing; it does not need a builder account. Free-form corrections, sensor automation
-and continuous control remain outside the supported surface.
+detail editing; it does not need a builder account.
+
+Three new workflows are implemented in the native app and browser for the next
+beta; the public download and hosted service are still awaiting release:
+
+- **Guided setup:** connect, run the non-moving hub check, confirm the attached
+  parts, report the battery and try a red light for two seconds. After each
+  completed test, you confirm whether the expected result happened. A detached,
+  unloaded motor can optionally turn 15° at 100°/s, after explicit opt-in, port
+  confirmation and separate approval of the exact run. Nothing retries itself.
+- **New project using this machine:** keep your saved names, descriptions,
+  directions and limits in an independent project with a new instruction. The
+  original stays separate. Check the current hardware and confirm its roles
+  again; no connection or run permission is copied.
+- **Share current version** shows exactly which instructions, notes and
+  attribution leave your device, without earlier snapshots. **Download full
+  backup** includes the retained version history. Both let you review the file
+  before export, and neither publishes it automatically.
+
+Free-form corrections, sensor automation and continuous control remain outside
+the supported surface. Software checks are not exact-build hardware qualification.
 
 ## Why it is different
 
@@ -65,10 +87,13 @@ yet, the app guides you through setup.
 desktop AI app acts as the MCP client; Studworks handles Bluetooth, projects,
 hardware checks and execution. There is no separate Studworks MCP client to
 install for this local workflow. Projects are saved locally on your Mac.
-An optional online workbench, cloud MCP/API and temporary device pairing are
-being prepared on DigitalOcean. They do not replace offline use or require
-builder accounts. Online requests are sent to the hosted service; physical runs
-still require the connected device's local approval.
+The optional online workbench, cloud MCP/public API and browser hub bridge are
+implemented, with DigitalOcean deployment and real-host/device checks still to
+come. In supported desktop Chrome, the browser connects to the nearby hub;
+cloud MCP cannot reach Bluetooth by itself. Allowing a Claude/ChatGPT session
+does not approve a run: each exact program still needs your approval beside the
+hub. This does not replace offline use or require builder accounts. Online
+requests are sent to the hosted service; an AI provider may process them too.
 
 You do not need Xcode, Swift or the source checkout. These instructions apply to
 the bundled Mac app; the first public beta download is being prepared.
@@ -137,10 +162,11 @@ model and the matching MCP helper. No separate server installation or paid
 Studworks service. **It is free, forever.** Not a trial.
 
 The beta download is coming next, after final device checks and Mac release
-packaging. It will appear on the
-[releases page](https://github.com/graemerycyk/studworks/releases) as
-`v0.1.0-beta.1` (app version `0.1.0`). iPhone and iPad (iOS/iPadOS) are planned
-for later in September 2026, subject to Apple review. Chrome support is planned.
+packaging. Its exact candidate tag and build will be recorded on the
+[releases page](https://github.com/graemerycyk/studworks/releases); earlier
+development candidates are not the new download. iPhone and iPad (iOS/iPadOS)
+are planned for later in September 2026, subject to Apple review. The Chrome
+web app is implemented and awaiting deployment and device checks.
 
 **Early.** Studworks is being built in the open and is not finished. If you try it
 and it does something daft, email [help@studworks.build](mailto:help@studworks.build)
@@ -170,8 +196,10 @@ This is a moderated gallery, not a social network. Builders may submit
 anonymously or choose a name/username and an optional HTTPS blog/social link.
 Credit is unverified metadata on that build, not a registered profile.
 Submit text, a public photo/video link and, optionally, a portable Studworks
-project (up to 1 MiB). Only approved submissions appear publicly. Attachments
-include machine notes and version history, so review them before sharing.
+project (up to 1 MiB). Only approved submissions appear publicly. Use **Share
+current version** and review its exact contents before attaching it. Current
+names and notes are not automatically anonymized; a **full backup** also includes
+earlier instructions and notes. The whole submitted file becomes public if approved.
 There are no builder accounts, likes, comments, tracking, media uploads or
 automatic publication. A private receipt lets builders check or withdraw a
 submission. `/admin/` uses allowlisted, single-use magic-link moderator login.

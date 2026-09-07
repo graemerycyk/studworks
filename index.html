@@ -40,7 +40,7 @@
     <div class="composer-bottom"><div class="copy-row"><button class="button secondary" type="button" data-copy-target="hero-prompt" hidden>Copy prompt</button><span class="copy-status" role="status" aria-live="polite"></span></div><button class="button secondary example-toggle" id="hero-examples-toggle" type="button" hidden>Pause examples</button><a class="cta" href="#get-it">Explore the beta <span aria-hidden="true">→</span></a></div>
   </section>
   <p class="hero-caption">Words become a plan. You decide when it runs.</p>
-  <div class="workflow-example"><p>Connect a supported LEGO hub. Studworks finds out what is plugged in,
+  <div class="workflow-example"><p>Connect a supported LEGO hub. The native Studworks app finds out what is plugged in,
   asks about anything it cannot see, turns one plain-language instruction into a small program,
   compiles it on your own device and puts it on the hub.</p>
 
@@ -51,7 +51,7 @@
     <span class="you">&gt; turn the motor 90 degrees slowly</span><br>
     <span class="app">I can see a Technic Large Motor on port A. Is that the motor?</span><br>
     <span class="you">&gt; yes</span><br>
-    <span class="ok">✓ Compiled · downloaded · finished safely</span>
+    <span class="ok">✓ Compiled · downloaded · program finished</span>
   </div>
   </div>
 
@@ -70,6 +70,12 @@
     <li><b>Free forever. Private by design.</b> No trial, account, API key or Studworks server.
         The app runs on your device, even offline.</li>
   </ul>
+
+  <p>Coming in the next beta: <b>guided setup</b> helps you check the hub, read its
+  battery and try a light, then asks whether you saw the result. <b>New project
+  using this machine</b> keeps your machine’s names and limits for another idea.
+  <b>Share current version</b> lets you review exactly what you share;
+  <b>Download full backup</b> keeps the earlier versions too.</p>
 
   <h2>From the workbench</h2>
   <div class="grid">
@@ -120,6 +126,11 @@
   <p class="small">The MCP server and Bluetooth connection run locally, but your chosen AI
   client may use its own service. Its plan, charges and privacy terms are separate from
   Studworks. Studworks itself remains free.</p>
+  <p>The <b>Chrome web app and cloud MCP/public API</b> are implemented and awaiting
+  deployment and device checks. The web app uses our hosted service to plan and
+  compile; a visible browser window connects to your hub. You do not need a
+  Studworks account, and allowing a chat session never replaces approval of an
+  exact run. <a href="/journal/use-with-claude-chatgpt/">How the browser connection works →</a></p>
 
   <div class="note">
     <p style="margin:0"><b>Early.</b> Studworks is being built in the open and is not finished.
@@ -135,7 +146,7 @@
     <a class="cta" href="https://github.com/graemerycyk/studworks/releases">Beta releases</a>
     <a class="cta ghost" href="https://github.com/graemerycyk/studworks">GitHub</a>
   </p>
-  <p class="small"><b>For Mac, iPad and iPhone.</b> Chrome support is coming soon.<br>
+  <p class="small"><b>For Mac, iPad and iPhone.</b> The Chrome web app is coming soon.<br>
   The first beta targets Apple-silicon Macs. iPhone and iPad (iOS/iPadOS) are planned
   for later in September 2026, subject to Apple review.</p>
   </main>
