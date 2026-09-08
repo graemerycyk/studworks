@@ -164,9 +164,13 @@ authorization starts from the chosen chat host; opening the hub page alone does
 not authorize that chat or approve a run. OAuth must first be configured and
 qualified by the operator.
 
-These links are ready for the combined deployment, not a new GitHub Pages
-publication: Pages alone cannot serve `/app/` or the API. Keep this review
-branch off Pages `main` until the hosting migration is ready.
+On 8 September 2026 the owner approved consolidating the website on `main` and
+publishing its latest design to GitHub Pages before the DigitalOcean migration.
+Pages alone cannot serve `/app/` or the API: those links become usable when the
+combined DigitalOcean deployment is connected to this domain. `main` is the
+default source branch; the former `master` and completed review branch can be
+removed after their history is verified in `main`. DigitalOcean takes the locked
+website snapshot from the app repository, not a live fetch of this repository.
 
 - [Set up your LEGO hub](https://www.studworks.build/journal/set-up-your-hub/)
 - [Use with Claude, ChatGPT or terminal tools](https://www.studworks.build/journal/use-with-claude-chatgpt/)
