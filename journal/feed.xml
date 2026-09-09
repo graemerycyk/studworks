@@ -2,44 +2,44 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <title>Studworks Journal</title>
   <subtitle>Guides and notes from the Studworks workbench.</subtitle>
-  <id>https://www.studworks.build/journal/</id>
-  <link href="https://www.studworks.build/journal/"/>
-  <link href="https://www.studworks.build/journal/feed.xml" rel="self" type="application/atom+xml"/>
+  <id>https://studworks.build/journal/</id>
+  <link href="https://studworks.build/journal/"/>
+  <link href="https://studworks.build/journal/feed.xml" rel="self" type="application/atom+xml"/>
   <updated>2026-09-07T00:00:00Z</updated>
   <author><name>Grae</name></author>
   <entry>
     <title>Set up your LEGO hub</title>
-    <id>https://www.studworks.build/journal/set-up-your-hub/</id>
-    <link href="https://www.studworks.build/journal/set-up-your-hub/"/>
+    <id>https://studworks.build/journal/set-up-your-hub/</id>
+    <link href="https://studworks.build/journal/set-up-your-hub/"/>
     <published>2026-09-07T00:00:00Z</published><updated>2026-09-07T00:00:00Z</updated>
     <summary>Check your hub, install Pybricks and make your first Studworks connection.</summary>
   </entry>
   <entry>
     <title>Use Studworks with Claude or ChatGPT</title>
-    <id>https://www.studworks.build/journal/use-with-claude-chatgpt/</id>
-    <link href="https://www.studworks.build/journal/use-with-claude-chatgpt/"/>
+    <id>https://studworks.build/journal/use-with-claude-chatgpt/</id>
+    <link href="https://studworks.build/journal/use-with-claude-chatgpt/"/>
     <published>2026-09-07T00:00:00Z</published><updated>2026-09-07T00:00:00Z</updated>
     <summary>Manual setup for Claude, ChatGPT and terminal tools, with separate approval for every physical run.</summary>
   </entry>
   <entry>
     <title>What is a Pybricks project?</title>
-    <id>https://www.studworks.build/journal/understanding-pybricks-files/</id>
-    <link href="https://www.studworks.build/journal/understanding-pybricks-files/"/>
+    <id>https://studworks.build/journal/understanding-pybricks-files/</id>
+    <link href="https://studworks.build/journal/understanding-pybricks-files/"/>
     <published>2026-09-07T00:00:00Z</published><updated>2026-09-07T00:00:00Z</updated>
     <summary>Understand Python, block-project files and read-only inspection in Studworks.</summary>
   </entry>
   <entry>
     <title>A battery reading, a red light, and a quarter-turn</title>
-    <id>https://www.studworks.build/journal/first-city-hub-tests/</id>
-    <link href="https://www.studworks.build/journal/first-city-hub-tests/"/>
+    <id>https://studworks.build/journal/first-city-hub-tests/</id>
+    <link href="https://studworks.build/journal/first-city-hub-tests/"/>
     <published>2026-09-05T00:00:00Z</published>
     <updated>2026-09-05T00:00:00Z</updated>
     <summary>What the first City Hub experiments actually proved, why visible results matter, and why each release must repeat the hardware checks.</summary>
   </entry>
   <entry>
     <title>A project should travel. Permission should not.</title>
-    <id>https://www.studworks.build/journal/projects-should-travel/</id>
-    <link href="https://www.studworks.build/journal/projects-should-travel/"/>
+    <id>https://studworks.build/journal/projects-should-travel/</id>
+    <link href="https://studworks.build/journal/projects-should-travel/"/>
     <published>2026-09-05T00:00:00Z</published>
     <updated>2026-09-07T00:00:00Z</updated>
     <summary>Updated with implemented portable projects, machine reuse and reviewed sharing, while every new build still needs fresh hardware checks and approval.</summary>

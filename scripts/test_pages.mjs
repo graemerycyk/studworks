@@ -18,7 +18,7 @@ test('website entry points lead to the web app and guided chat connection on the
   }
   assert.match(guide, /id="hosted-mcp-address" data-deployment-mcp/);
   assert.match(guide, /opening the hub page alone does not authorize a chat session/);
-  assert.match(guide, /rel="canonical" href="https:\/\/www.studworks.build\/journal\/use-with-claude-chatgpt\/"/);
+  assert.match(guide, /rel="canonical" href="https:\/\/studworks.build\/journal\/use-with-claude-chatgpt\/"/);
 });
 
 test('every website page has the same static footer and safe fixed navigation', async () => {
@@ -31,6 +31,11 @@ test('every website page has the same static footer and safe fixed navigation', 
   }
   for (const path of pages) {
     const html = await publicSource(path);
+    assert.doesNotMatch(html, /<[^>]+\s(?:style|on[a-z]+)\s*=/i, `${path}: keep styling and handlers in external files for strict CSP`);
+    for (const script of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
+      assert.match(script[1], /\bsrc="[^\"]+"/, path);
+      assert.equal(script[2].trim(), '', path);
+    }
     assert.deepEqual(html.match(/<footer\b[^>]*>[\s\S]*?<\/footer>/g), [footer], path);
   }
   assert.deepEqual([...footer.matchAll(/href="([^"]+)"/g)].map(match => match[1]),
