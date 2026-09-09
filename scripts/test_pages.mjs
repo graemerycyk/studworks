@@ -24,6 +24,22 @@ test('website entry points lead to the web app and guided chat connection on the
   assert.match(guide, /rel="canonical" href="https:\/\/studworks.build\/journal\/use-with-claude-chatgpt\/"/);
 });
 
+test('navigation shares the homepage width without widening editorial reading columns', async () => {
+  const css = await publicSource('assets/site.css');
+  assert.match(css, /\.wrap\{max-width:1120px;margin:0 auto\}/);
+  assert.doesNotMatch(css, /\.wrap\{max-width:820px/);
+  assert.match(css, /body:not\(\.home\) \.wrap:not\(\.wide\)>:is\(main,footer\)\{max-width:820px;margin-inline:auto\}/);
+  assert.match(css, /grid-template-columns:minmax\(0,1fr\) minmax\(0,820px\) minmax\(0,1fr\)/);
+  assert.match(css, /body:not\(\.home\) \.wrap:not\(\.wide\)>header>\.site-nav\{grid-column:1 \/ -1\}/);
+  assert.match(css, />header>\.eyebrow\{justify-self:start\}/);
+  for (const path of ['index.html', 'projects/index.html', 'journal/index.html', 'journal/first-city-hub-tests/index.html']) {
+    const html = await publicSource(path);
+    assert.match(html, /<div class="wrap(?: wide)?">/);
+    assert.match(html, /<header[^>]*>\s*<nav class="site-nav"/);
+    assert.match(html, /href="\/assets\/site.css"/);
+  }
+});
+
 test('every website page has the same static footer and safe fixed navigation', async () => {
   const footer = (await publicSource('scripts/footer.html')).trim();
   const navigation = (await publicSource('scripts/navigation.html')).trim();
