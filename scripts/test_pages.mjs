@@ -73,6 +73,45 @@ test('all Projects and Journal routes opt into the shared colourful shell', asyn
   assert.match(css, /:focus-visible\{outline:3px solid var\(--accent\)/);
 });
 
+test('homepage feature, workbench and hardware cards all receive a scoped colour treatment', async () => {
+  const home = await publicSource('index.html'), css = await publicSource('assets/site.css');
+  const features = home.match(/<ul class="feature-list">([\s\S]*?)<\/ul>/)?.[1];
+  const workbench = home.match(/<h2>From the workbench<\/h2>([\s\S]*?)<h2>Hardware<\/h2>/)?.[1];
+  const hardware = home.match(/<div class="hw">([\s\S]*?)<\/div>\s*<p>/)?.[1];
+  assert.equal([...features.matchAll(/<li>/g)].length, 4);
+  assert.equal([...workbench.matchAll(/<article class="project-card">/g)].length, 2);
+  assert.equal([...hardware.matchAll(/<b>/g)].length, 6);
+  assert.match(workbench, /href="\/projects\/"/);
+  assert.match(workbench, /href="\/journal\/"/);
+  assert.match(css, /:root\{[^}]*--red-soft:#FFF0F1/);
+  const treatment = css.match(/\.home :is\(\.feature-list>li,\.grid>\.project-card,\.hw>div\)\{([^}]+)\}/)?.[1];
+  assert.ok(treatment);
+  assert.match(treatment, /--card-accent:var\(--accent\);--card-soft:var\(--blue-soft\)/);
+  assert.match(treatment, /border-top:4px solid var\(--card-accent\)/);
+  assert.match(treatment, /background:linear-gradient\(180deg,var\(--card-soft\),var\(--panel\) 150px\)/);
+  // Preserve the existing yellow/green feature accents; complete the set in blue/red.
+  for (const [position, accent, surface] of [['4n+2', 'yellow', 'yellow-soft'], ['4n+3', 'ok', 'ok-soft'], ['4n', 'red', 'red-soft']]) {
+    const selector = `.home :is(.feature-list>li,.hw>div):nth-child(${position})`;
+    const rule = css.slice(css.indexOf(selector)).split('}')[0];
+    assert.ok(rule.includes(`--card-accent:var(--${accent});--card-soft:var(--${surface})`), selector);
+  }
+  assert.match(css, /\.home \.grid>\.project-card:first-child\{--card-accent:var\(--ok\);--card-soft:var\(--ok-soft\)\}/);
+});
+
+test('buttons keep opaque white or blue surfaces inside coloured cards', async () => {
+  const css = await publicSource('assets/site.css');
+  assert.match(css, /:root\{[^}]*--panel:#FFFFFF/);
+  assert.match(css, /:root\{[^}]*--accent:#0057D9/);
+  const filled = css.match(/\.cta,\.button\{([^}]+)\}/)?.[1];
+  const outlined = css.match(/\.cta\.ghost,\.button\.secondary\{([^}]+)\}/)?.[1];
+  assert.match(filled, /background:var\(--accent\)/);
+  assert.match(filled, /color:#fff/);
+  assert.match(outlined, /background:var\(--panel\)/);
+  assert.match(outlined, /color:var\(--accent\)/);
+  assert.doesNotMatch(outlined, /background:(?:transparent|inherit)/);
+  assert.match(await publicSource('journal/index.html'), /<a class="cta ghost" href="\/journal\/feed.xml">Follow via Atom feed<\/a>/);
+});
+
 test('content palette keeps readable text on the new light surfaces', async () => {
   const css = await publicSource('assets/site.css');
   const colors = new Map([...css.matchAll(/--([a-z-]+):(#\w{6})\b/g)].map(match => [match[1], match[2]]));
