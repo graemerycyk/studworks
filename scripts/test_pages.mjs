@@ -7,7 +7,10 @@ const plainText = value => value.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ');
 
 test('website entry points lead to the web app and guided chat connection on the same deployment', async () => {
   const home = await publicSource('index.html');
-  assert.match(home, /class="cta" href="\/app\/">Open web app/);
+  assert.match(home, /class="cta" href="\/app\/">Open Web App/);
+  assert.match(home, /preferred browser with a connected hub bridge/);
+  const hubGuide = await publicSource('journal/set-up-your-hub/index.html');
+  for (const phrase of ['Use a connected bridge', 'confirmation codes', 'Preview project for bridge', 'Use this reviewed version', 'physical stop button']) assert.ok(hubGuide.includes(phrase));
   const guide = await publicSource('journal/use-with-claude-chatgpt/index.html');
   for (const html of [home, guide]) {
     for (const path of ['/app/', '/app/connect.html', '/journal/use-with-claude-chatgpt/']) {
@@ -61,8 +64,8 @@ test('every website page has the same static footer and safe fixed navigation', 
     assert.match(await publicSource('projects/' + path + '/index.html'), /href="\/journal\/first-city-hub-tests\/"/);
   }
   assert.match(await publicSource('projects/railway-crossing/index.html'), /href="\/journal\/projects-should-travel\/"/);
-  assert.match(navigation, /class="nav-action" href="\/#get-it">Get the app/);
-  assert.match(await publicSource('index.html'), /Planning needs no Bluetooth\. To connect a hub here, use desktop Chrome\./);
+  assert.match(navigation, /class="nav-action" href="\/#get-it">Get the Mac \/ iPad App/);
+  assert.match(navigation, />Web App</);
 });
 
 test('all Projects and Journal routes opt into the shared colourful shell', async () => {

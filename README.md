@@ -8,8 +8,8 @@ compiles it on your device, and puts it on the hub.
 
 **It is free, forever.** Not a trial.
 
-**For Mac, iPad and iPhone, with a Chrome web app coming soon.** The browser
-workbench is implemented and awaiting deployment and device checks.
+**For Mac, iPad and iPhone, plus the [Web App](https://studworks.build/app/).**
+The browser experience is deployed; exact-browser and real-hub checks remain.
 The iPhone and iPad apps (iOS/iPadOS) are planned for later in September 2026,
 subject to Apple review.
 
@@ -88,12 +88,21 @@ desktop AI app acts as the MCP client; Studworks handles Bluetooth, projects,
 hardware checks and execution. There is no separate Studworks MCP client to
 install for this local workflow. Projects are saved locally on your Mac.
 The optional online workbench, cloud MCP/public API and browser hub bridge are
-implemented, with DigitalOcean deployment and real-host/device checks still to
-come. In supported desktop Chrome, the browser connects to the nearby hub;
+deployed on DigitalOcean, with chat authorization awaiting provider setup and
+real-host/device checks. In supported desktop Chrome, the browser connects to the nearby hub;
 cloud MCP cannot reach Bluetooth by itself. Allowing a Claude/ChatGPT session
 does not approve a run: each exact program still needs your approval beside the
 hub. This does not replace offline use or require builder accounts. Online
 requests are sent to the hosted service; an AI provider may process them too.
+
+The Web App also has **Use a connected bridge**: work in modern Safari, Firefox,
+Chrome or Edge with the hub connected in the current Mac app or a separate visible
+Chrome bridge. A private temporary invitation and matching confirmation codes
+pair the two. Review a current-version project copy, send it, then approve every
+exact run beside the hub. The new native plan-refresh path needs a fresh Mac
+build; independently revised owner copies require a separate plan review.
+This manual Web App path does not need Claude, ChatGPT or OAuth activation.
+See the [hub guide](https://studworks.build/journal/set-up-your-hub/).
 
 You do not need Xcode, Swift or the source checkout. These instructions apply to
 the bundled Mac app; the first public beta download is being prepared.
@@ -190,8 +199,8 @@ The beta download is coming next, after final device checks and Mac release
 packaging. Its exact candidate tag and build will be recorded on the
 [releases page](https://github.com/graemerycyk/studworks/releases); earlier
 development candidates are not the new download. iPhone and iPad (iOS/iPadOS)
-are planned for later in September 2026, subject to Apple review. The Chrome
-web app is implemented and awaiting deployment and device checks.
+are planned for later in September 2026, subject to Apple review. The Web App
+is deployed; the new bridge still needs attended browser and hardware qualification.
 
 **Early.** Studworks is being built in the open and is not finished. If you try it
 and it does something daft, email [help@studworks.build](mailto:help@studworks.build)
@@ -251,13 +260,13 @@ examples and Copy prompt controls have been removed.
 
 All 18 website pages embed the homepage navigation from `scripts/navigation.html`
 and the exact footer from `scripts/footer.html`. Navigation differs only in its
-current-page/section indicator; every page includes Web app, Projects, Journal,
-Claude & ChatGPT and the yellow Get the app action. Page-specific headings remain.
+current-page/section indicator; every page includes Web App, Projects, Journal,
+Claude & ChatGPT and the yellow Get the Mac / iPad App action. Page-specific headings remain.
 When changing either template, update each page; `scripts/check_site.py` rejects
 drift. These are build-time sources, not browser dependencies or public assets.
-Homepage copy distinguishes Bluetooth-free planning from desktop Chrome hub
-connection. The MCP bridge still owns a local Web Bluetooth connection; the web
-workbench does not yet attach to that bridge from other browsers. Static checks
+Homepage copy distinguishes direct desktop Chrome Bluetooth from the Web App's
+browser-independent bridge controller. Bluetooth stays in the connected Mac app
+or a separate visible Chrome bridge; every run remains locally approved. Static checks
 allow only the explicit sibling routes `/app/` and `/app/connect.html`; the app
 repository's deployment preflight checks the actual shipped targets in both
 directions, including page fragments.
