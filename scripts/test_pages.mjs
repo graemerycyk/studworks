@@ -10,7 +10,7 @@ test('website entry points lead to the web app and guided chat connection on the
   assert.match(home, /class="cta" href="\/app\/">Open Web App/);
   assert.match(home, /preferred browser with a connected hub bridge/);
   const hubGuide = await publicSource('journal/set-up-your-hub/index.html');
-  for (const phrase of ['Use a connected bridge', 'confirmation codes', 'Preview project for bridge', 'Use this reviewed version', 'physical stop button']) assert.ok(hubGuide.includes(phrase));
+  for (const phrase of ['Use an existing hub bridge', 'Connect a hub', 'confirmation codes', 'Preview project for bridge', 'Use this reviewed version', 'physical stop button', 'MCP does not give their cloud server access']) assert.ok(hubGuide.includes(phrase));
   const guide = await publicSource('journal/use-with-claude-chatgpt/index.html');
   for (const html of [home, guide]) {
     for (const path of ['/app/', '/app/connect.html', '/journal/use-with-claude-chatgpt/']) {
