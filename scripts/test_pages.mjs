@@ -23,6 +23,7 @@ test('website entry points lead to the web app and guided chat connection on the
 
 test('every website page has the same static footer and safe fixed navigation', async () => {
   const footer = (await publicSource('scripts/footer.html')).trim();
+  const navigation = (await publicSource('scripts/navigation.html')).trim();
   const pages = ['index.html'];
   for (const section of ['projects', 'journal', 'admin', 'privacy', 'terms']) {
     for (const path of await readdir(new URL('../' + section + '/', import.meta.url), { recursive: true })) {
@@ -37,6 +38,14 @@ test('every website page has the same static footer and safe fixed navigation', 
       assert.equal(script[2].trim(), '', path);
     }
     assert.deepEqual(html.match(/<footer\b[^>]*>[\s\S]*?<\/footer>/g), [footer], path);
+    const nav = html.match(/<nav class="site-nav"[^>]*>[\s\S]*?<\/nav>/g);
+    assert.equal(nav?.length, 1, path);
+    assert.equal(nav[0].replace(/ aria-current="(?:page|true)"/g, ''), navigation, path);
+    const active = [...nav[0].matchAll(/href="([^"]+)" aria-current="(page|true)"/g)];
+    const route = path === 'index.html' ? '/' : '/' + path.replace(/index\.html$/, '');
+    const expected = route === '/' ? '/' : route.startsWith('/projects/') ? '/projects/'
+      : route === '/journal/use-with-claude-chatgpt/' ? route : route.startsWith('/journal/') ? '/journal/' : null;
+    assert.deepEqual(active.map(match => [match[1], match[2]]), expected ? [[expected, expected === route ? 'page' : 'true']] : [], path);
   }
   assert.deepEqual([...footer.matchAll(/href="([^"]+)"/g)].map(match => match[1]),
     ['/privacy/', '/terms/', 'mailto:help@studworks.build', '/', '/projects/', '/journal/', '/projects/#share', '/app/', '/journal/use-with-claude-chatgpt/', '/journal/set-up-your-hub/']);
@@ -52,6 +61,8 @@ test('every website page has the same static footer and safe fixed navigation', 
     assert.match(await publicSource('projects/' + path + '/index.html'), /href="\/journal\/first-city-hub-tests\/"/);
   }
   assert.match(await publicSource('projects/railway-crossing/index.html'), /href="\/journal\/projects-should-travel\/"/);
+  assert.match(navigation, /class="nav-action" href="\/#get-it">Get the app/);
+  assert.match(await publicSource('index.html'), /Planning needs no Bluetooth\. To connect a hub here, use desktop Chrome\./);
 });
 
 test('all Projects and Journal routes opt into the shared colourful shell', async () => {

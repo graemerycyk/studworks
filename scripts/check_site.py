@@ -64,10 +64,14 @@ class Page(HTMLParser):
 def check():
     pages = {ROOT / path: Page(ROOT / path) for path in PAGE_PATHS}
     shared_footer = (ROOT / "scripts/footer.html").read_text().strip()
+    shared_navigation = (ROOT / "scripts/navigation.html").read_text().strip()
     titles = set()
     for path, page in pages.items():
         footers = re.findall(r"<footer\b[^>]*>[\s\S]*?</footer>", path.read_text())
         assert len(footers) == 1 and footers[0] == shared_footer, f"Footer must match scripts/footer.html: {path}"
+        navigation = re.findall(r'<nav class="site-nav"[^>]*>[\s\S]*?</nav>', path.read_text())
+        assert len(navigation) == 1, f"Expected one shared navigation: {path}"
+        assert re.sub(r' aria-current="(?:page|true)"', '', navigation[0]) == shared_navigation, f"Navigation must match scripts/navigation.html: {path}"
         assert page.tags.count("h1") == 1, f"Expected one h1: {path}"
         assert page.tags.count("main") == 1, f"Expected one main landmark: {path}"
         assert page.meta.get("description") and page.meta.get("viewport"), f"Missing metadata: {path}"

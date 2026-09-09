@@ -249,9 +249,15 @@ Core content and navigation work without JavaScript. The homepage cycles through
 five typed examples, with a static reduced-motion alternative; its old Pause
 examples and Copy prompt controls have been removed.
 
-All 18 website pages embed the exact footer from `scripts/footer.html`. When
-changing it, update each page; `scripts/check_site.py` rejects drift. The template
-is build-time source, not a browser dependency or public asset. Static checks
+All 18 website pages embed the homepage navigation from `scripts/navigation.html`
+and the exact footer from `scripts/footer.html`. Navigation differs only in its
+current-page/section indicator; every page includes Web app, Projects, Journal,
+Claude & ChatGPT and the yellow Get the app action. Page-specific headings remain.
+When changing either template, update each page; `scripts/check_site.py` rejects
+drift. These are build-time sources, not browser dependencies or public assets.
+Homepage copy distinguishes Bluetooth-free planning from desktop Chrome hub
+connection. The MCP bridge still owns a local Web Bluetooth connection; the web
+workbench does not yet attach to that bridge from other browsers. Static checks
 allow only the explicit sibling routes `/app/` and `/app/connect.html`; the app
 repository's deployment preflight checks the actual shipped targets in both
 directions, including page fragments.
