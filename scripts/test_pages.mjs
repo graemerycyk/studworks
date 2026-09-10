@@ -97,8 +97,9 @@ test('every website page has the same static footer and safe fixed navigation', 
     assert.match(await publicSource('projects/' + path + '/index.html'), /href="\/journal\/first-city-hub-tests\/"/);
   }
   assert.match(await publicSource('projects/railway-crossing/index.html'), /href="\/journal\/projects-should-travel\/"/);
-  assert.match(navigation, /class="nav-action" href="\/#get-it">Start building/);
-  assert.match(navigation, />Web App</);
+  assert.match(navigation, /class="nav-action" href="\/app\/">Start building<\/a>/);
+  assert.doesNotMatch(navigation, />Web App<|href="\/#get-it"/);
+  assert.equal([...navigation.matchAll(/href="\/app\/"/g)].length, 1);
 });
 
 test('all Projects and Journal routes opt into the shared colourful shell', async () => {

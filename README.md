@@ -124,7 +124,8 @@ a new signed app. Cloud authorization does not migrate old local permissions.
 ### Getting started guides
 
 On the combined DigitalOcean site, choose **Open Web App** on the homepage or
-**Web App** in the navigation/shared footer. The routes are:
+**Start building** in the header. The shared footer retains **Web App**. All three
+open the same Web App directly. The routes are:
 
 | Destination | Same-origin path |
 | --- | --- |
@@ -234,8 +235,9 @@ examples and Copy prompt controls have been removed.
 
 All 18 website pages embed the homepage navigation from `scripts/navigation.html`
 and the exact footer from `scripts/footer.html`. Navigation differs only in its
-current-page/section indicator; every page includes Web App, Projects, Journal,
-Claude & ChatGPT and the yellow Get the Mac / iPad App action. Page-specific headings remain.
+current-page/section indicator; every page includes Projects, Journal,
+Claude & ChatGPT and the yellow **Start building** action linking directly to
+`/app/`. There is no duplicate Web App header link. Page-specific headings remain.
 When changing either template, update each page; `scripts/check_site.py` rejects
 drift. These are build-time sources, not browser dependencies or public assets.
 Homepage copy distinguishes direct desktop Chrome Bluetooth from the Web App's
