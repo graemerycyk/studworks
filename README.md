@@ -240,6 +240,10 @@ Claude & ChatGPT and the yellow **Start building** action linking directly to
 `/app/`. There is no duplicate Web App header link. Page-specific headings remain.
 When changing either template, update each page; `scripts/check_site.py` rejects
 drift. These are build-time sources, not browser dependencies or public assets.
+The shared footer contains navigation, support and attribution, not repeated
+pricing slogans. The homepage states the free pricing once in its feature copy;
+relevant journal articles and terms can explain it in context. The Web App itself
+uses a compact product header and Help menu, without a marketing hero or footer.
 Homepage copy distinguishes direct desktop Chrome Bluetooth from the Web App's
 browser-independent bridge controller. Bluetooth stays in the connected Mac app
 or a separate visible Chrome bridge; every run remains locally approved. Static checks

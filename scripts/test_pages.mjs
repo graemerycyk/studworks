@@ -86,7 +86,7 @@ test('every website page has the same static footer and safe fixed navigation', 
   assert.deepEqual([...footer.matchAll(/href="([^"]+)"/g)].map(match => match[1]),
     ['/privacy/', '/terms/', 'mailto:help@studworks.build', '/', '/projects/', '/journal/', '/projects/#share', '/app/', '/journal/use-with-claude-chatgpt/', '/journal/set-up-your-hub/']);
   assert.doesNotMatch(footer, /<script|<input|<button|data-copy-link/);
-  assert.match(footer, /Free, forever/);
+  assert.doesNotMatch(footer, /free[, ]+forever|no ads|no cross-site tracking/i);
   assert.match(footer, /Not affiliated with, endorsed by, or sponsored by the LEGO Group/);
   assert.match(footer, /Not affiliated with the Pybricks project/);
   assert.match(footer, /MicroPython cross-compiler, MIT licensed/);
@@ -100,6 +100,13 @@ test('every website page has the same static footer and safe fixed navigation', 
   assert.match(navigation, /class="nav-action" href="\/app\/">Start building<\/a>/);
   assert.doesNotMatch(navigation, />Web App<|href="\/#get-it"/);
   assert.equal([...navigation.matchAll(/href="\/app\/"/g)].length, 1);
+});
+
+test('free pricing is stated once in homepage copy rather than repeated in every section', async () => {
+  const home = await publicSource('index.html');
+  const body = home.slice(home.indexOf('<body'));
+  assert.equal([...body.matchAll(/free[, ]+forever/gi)].length, 1);
+  assert.doesNotMatch(body, /Not a trial|Studworks itself remains free/);
 });
 
 test('all Projects and Journal routes opt into the shared colourful shell', async () => {
