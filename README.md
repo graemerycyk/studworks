@@ -2,21 +2,21 @@
 
 **Tell a LEGO machine what to do. It works out the rest.**
 
-Connect a supported LEGO hub. The native Studworks app finds out what is plugged in, asks about
-anything it cannot see, turns one plain-language instruction into a small program,
-compiles it on your device, and puts it on the hub.
+Connect a supported LEGO hub in the Web App. Studworks checks what is plugged in,
+asks about anything it cannot see and turns one plain-language instruction into
+a small program. Our online service compiles it; you review and approve each run.
 
 **It is free, forever.** Not a trial.
 
-**For Mac, iPad and iPhone, plus the [Web App](https://studworks.build/app/).**
-The browser experience is deployed; exact-browser and real-hub checks remain.
-The iPhone and iPad apps (iOS/iPadOS) are planned for later in September 2026,
-subject to Apple review.
+**Start with the [Web App](https://studworks.build/app/).** The browser beta is
+deployed. Full Mac, iPad and iPhone apps are postponed; their source and tests
+remain for a later release. There are no native-app download buttons or promised
+App Store dates in this launch. Exact-browser and real-hub checks still apply.
 
-The normal native-app workflow works offline. No account, API key, or Studworks
-server is required, and instructions are processed on your device. The optional
-web workbench uses Studworks' hosted service for planning and compilation;
-external AI apps have their own privacy terms. None requires a Studworks builder account.
+The Web App uses Studworks' hosted service for planning and compilation; private
+project copies stay in your browser. External AI tools have their own privacy
+terms. No Studworks builder account or user-supplied model API key is required.
+The retained native app has a separate on-device/offline path for a later release.
 
 ## What it does
 
@@ -34,8 +34,8 @@ longer”. Exact edits show a before/after review and ask which step when ambigu
 The web workbench also has device-local autosave, a project library and machine
 detail editing; it does not need a builder account.
 
-Three new workflows are implemented in the native app and browser for the next
-beta; the public download and hosted service are still awaiting release:
+The Web App beta includes these implemented workflows. Native source retains the
+same concepts for later releases:
 
 - **Guided setup:** connect, run the non-moving hub check, confirm the attached
   parts, report the battery and try a red light for two seconds. After each
@@ -80,88 +80,55 @@ hub-light, and bounded motor actions.
 Studworks uses [Pybricks](https://pybricks.com) on the hub. If it is not installed
 yet, the app guides you through setup.
 
-## MCP setup
+## Cloud MCP setup
 
-**One app. MCP included.** The Mac app bundles a local
-[Model Context Protocol](https://modelcontextprotocol.io) server. Your compatible
-desktop AI app acts as the MCP client; Studworks handles Bluetooth, projects,
-hardware checks and execution. There is no separate Studworks MCP client to
-install for this local workflow. Projects are saved locally on your Mac.
-The optional online workbench, cloud MCP/public API and browser hub bridge are
-deployed on DigitalOcean, with chat authorization awaiting provider setup and
-real-host/device checks. In supported desktop Chrome, the browser connects to the nearby hub;
-cloud MCP cannot reach Bluetooth by itself. Allowing a Claude/ChatGPT session
-does not approve a run: each exact program still needs your approval beside the
-hub. This does not replace offline use or require builder accounts. Online
-requests are sent to the hosted service; an AI provider may process them too.
+Build in the Web App or a compatible assistant through the
+same Studworks platform. **Cloud MCP is the public AI integration**: no local
+MCP server or separate Studworks MCP client to install. Terminal clients and
+custom agents can use the same remote interface, subject to compatibility and
+the same approval rules. See the [connection guide](https://studworks.build/journal/use-with-claude-chatgpt/)
+and [public API reference](https://studworks.build/api/v1/openapi.json).
+
+Use the HTTPS server address from that guide in your assistant's connection
+settings, not in the conversation. Planning can work without hardware. Hardware
+access needs a Bluetooth bridge near the hub, a temporary authorized session,
+fresh hardware checks and your separate approval of each exact run. The current
+public authorization flow uses a visible desktop Chrome bridge; your assistant
+can run in your preferred browser. Provider setup and real-host/device checks
+are still required before cloud hardware authorization is activated.
 
 The Web App also has **Use a connected bridge**: work in modern Safari, Firefox,
-Chrome or Edge with the hub connected in the current Mac app or a separate visible
-Chrome bridge. A private temporary invitation and matching confirmation codes
+Chrome or Edge with the hub connected in a separate visible desktop Chrome
+bridge. A private temporary invitation and matching confirmation codes
 pair the two. Review a current-version project copy, send it, then approve every
 exact run beside the hub. The new native plan-refresh path needs a fresh Mac
 build; independently revised owner copies require a separate plan review.
 This manual Web App path does not need Claude, ChatGPT or OAuth activation.
+Native public cloud authorization is not yet part of this pairing flow.
 See the [hub guide](https://studworks.build/journal/set-up-your-hub/).
 
-You do not need Xcode, Swift or the source checkout. These instructions apply to
-the bundled Mac app; the first public beta download is being prepared.
+The native app is one iPhone/iPad app, also built for Mac with Mac Catalyst.
+Apple still requires separate platform builds, signing and distribution checks.
+Its ordinary offline workflow needs neither MCP nor the hosted service. The
+Web App and cloud MCP send requests to Studworks' service; your chosen AI
+provider may process them too and has separate privacy terms and charges.
+**Studworks is free, forever.** No builder account is required.
 
-1. Install the Studworks Mac app in Applications and open it.
-2. Choose **Enable local MCP** under **External AI / MCP** in Studworks. If macOS asks, grant Bluetooth
-   permission to **Studworks**, not to the AI app.
-3. Configure your AI app to launch the bundled helper as a **local stdio MCP
-   server**, with no arguments. For clients using the common JSON format:
-
-```json
-{
-  "mcpServers": {
-    "studworks": {
-      "command": "/Applications/Studworks.app/Contents/Helpers/studworks-mcp"
-    }
-  }
-}
-```
-
-Keep the helper inside its matching app. If you installed Studworks elsewhere,
-use that absolute path. Configuration locations vary by AI client; restart the
-client if it requires it and keep Studworks open. The helper does not launch the
-app automatically. Compatibility depends on the host supporting this local stdio
-integration; listing an MCP server is not itself proof of hardware compatibility.
-
-Start with a read-only hardware check:
-
-> List nearby LEGO hubs. After I choose a hub, connect, run the non-moving
-> self-test and inspect its ports. Do not move any motors.
-
-The app and MCP share the same capabilities and guardrails. Each connection needs
-a successful non-moving self-test and fresh port inspection. Motor roles must be
-confirmed against the real build. An AI can propose a run, but only you can choose
-**Approve and run** in Studworks. Keep the mechanism clear and the hub's physical
-stop button within reach when testing movement.
-
-### Replacing an older development setup
-
-If your AI app points at a standalone `StudworksMCP/.build/...` or older
-`dist/mcp-qualification/...` executable, first stop the program and confirm the
-hub is stopped. Replace that configuration with the bundled app path above,
-remove duplicate Studworks entries, and restart the AI app. The retired helper
-could connect directly to Bluetooth; the bundled helper uses the Studworks app.
-
-The MCP server and Bluetooth connection run locally, but the AI client you connect
-may process conversations through its own service. That client's plan, charges,
-and privacy terms are separate from Studworks. Studworks itself remains free.
+Local MCP is deferred, not bundled in the app. Existing development users
+should stop any hub program, confirm the hub is stopped, then remove old local
+Studworks MCP entries from their AI tools. Do not copy old helper binaries into
+a new signed app. Cloud authorization does not migrate old local permissions.
 
 ## Studworks 0.1.0 Beta
 
 ### Getting started guides
 
-On the combined DigitalOcean site, choose **Open web app** on the homepage or
-**Web app** in the navigation/shared footer. The routes are:
+On the combined DigitalOcean site, choose **Open Web App** on the homepage or
+**Web App** in the navigation/shared footer. The routes are:
 
 | Destination | Same-origin path |
 | --- | --- |
-| Web app | `/app/` |
+| Web App | `/app/` |
 | Claude/ChatGPT setup guide | `/journal/use-with-claude-chatgpt/` |
 | Browser hub connection | `/app/connect.html` |
 | First-time hub setup | `/journal/set-up-your-hub/` |
@@ -185,22 +152,21 @@ website snapshot from the app repository, not a live fetch of this repository.
 - [Use with Claude, ChatGPT or terminal tools](https://www.studworks.build/journal/use-with-claude-chatgpt/)
 - [Understand Pybricks project files](https://www.studworks.build/journal/understanding-pybricks-files/)
 
-The connection guide distinguishes the upcoming hosted beta from the bundled
-local Mac helper. It does not claim an official directory listing or completed
+The connection guide describes cloud MCP and the nearby Bluetooth bridge, not
+a bundled local MCP helper. It does not claim an official directory listing or completed
 host/hardware qualification.
 
 ### Beta package
 
-The first beta is one Apple-silicon Mac download containing the app, its local
-model and the matching MCP helper. No separate server installation or paid
-Studworks service. **It is free, forever.** Not a trial.
+The beta entry point is **Open Web App**, with GitHub as the secondary link.
+There is no Mac/mobile download or disabled App Store button in this section.
+Use desktop Chrome for direct Bluetooth, or a separate visible Chrome hub bridge
+while working in another desktop browser. **It is free, forever.** Not a trial.
 
-The beta download is coming next, after final device checks and Mac release
-packaging. Its exact candidate tag and build will be recorded on the
-[releases page](https://github.com/graemerycyk/studworks/releases); earlier
-development candidates are not the new download. iPhone and iPad (iOS/iPadOS)
-are planned for later in September 2026, subject to Apple review. The Web App
-is deployed; the new bridge still needs attended browser and hardware qualification.
+Full native Mac/iPad/iPhone apps are postponed, not deleted. Studworks Connect
+utilities for Mac and Windows and hosted-model parity remain planned work,
+not available downloads. The current hosted planner is deterministic; cloud hub
+authorization still needs provider setup and attended host/hardware qualification.
 
 **Early.** Studworks is being built in the open and is not finished. If you try it
 and it does something daft, email [help@studworks.build](mailto:help@studworks.build)
@@ -212,8 +178,10 @@ the most useful thing you can do.
 The owner approved `/privacy/` and `/terms/`, effective **7 September 2026**.
 They identify **studworks.build — Belgium**, with **help@studworks.build** for
 privacy/support. Draft labels and `noindex` were removed. The policies distinguish
-the current GitHub Pages website from online services that are not yet available;
-approval does not announce the DigitalOcean launch or certify legal compliance.
+current DigitalOcean hosting and transient planning from planned improvement
+retention and separately gated sharing/authorization. The 10 September policy
+update is published; collection is not enabled. Policy publication does not
+certify legal compliance or activate those features.
 Operator identity/contact details and actual production processing arrangements
 remain part of the deployment and directory-submission review.
 
@@ -234,7 +202,7 @@ project (up to 1 MiB). Only approved submissions appear publicly. Use **Share
 current version** and review its exact contents before attaching it. Current
 names and notes are not automatically anonymized; a **full backup** also includes
 earlier instructions and notes. The whole submitted file becomes public if approved.
-There are no builder accounts, likes, comments, tracking, media uploads or
+There are no builder accounts, likes, comments, visitor profiles, media uploads or
 automatic publication. A private receipt lets builders check or withdraw a
 submission. `/admin/` uses allowlisted, single-use magic-link moderator login.
 This requires the new backend's PostgreSQL and mail configuration: GitHub Pages
@@ -243,9 +211,15 @@ Copying a prompt does not open the app, connect to hardware or execute anything.
 Published builds have a shareable page, project download and explicit web-app
 import link. Imported projects become independent copies; source facts require
 confirmation and neither live bindings nor run approvals are transferred.
-Remixes can link back to their published source. Sharing is not model-training
-consent. Direct in-app publishing is not required: export the project and attach
-it to the submission form.
+Remixes can link back to their published source. Publishing does not enrol the
+whole project or its media in improvement data. The privacy/terms source separately
+describes planned default-on, limited submitted input/output improvement and
+reviewed training/evaluation without separate opt-in or training checkboxes.
+Collection is not enabled: screening, lawful-basis review, rights and retention
+safeguards must precede activation. No identity/IP/session-tracking fields enter
+that dataset; text can still contain personal information and needs screening.
+Builders keep their project rights. Direct in-app publishing is not required:
+export the project and attach it to the submission form.
 
 ### Maintaining the website
 

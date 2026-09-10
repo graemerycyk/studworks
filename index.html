@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Studworks — tell a LEGO machine what to do</title>
-<meta name="description" content="Tell a LEGO machine what to do. Studworks is free forever, works locally, and bundles MCP integration in the Mac app. Version 0.1.0 beta is coming next.">
+<meta name="description" content="Tell a LEGO machine what to do in the Studworks Web App. Describe, review and run a small program. Free forever, with no builder account.">
 <meta property="og:title" content="Studworks — tell a LEGO machine what to do">
-<meta property="og:description" content="Free, offline tools for supported LEGO hubs on Mac, iPad and iPhone.">
+<meta property="og:description" content="Build with LEGO in the Studworks Web App. Your words become a plan; you decide when it runs. Free forever.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://studworks.build/">
 <meta property="og:image" content="https://studworks.build/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Studworks — tell a LEGO machine what to do">
-<meta name="twitter:description" content="Free, offline tools for supported LEGO hubs on Mac, iPad and iPhone.">
+<meta name="twitter:description" content="Build with LEGO in the Studworks Web App. Your words become a plan; you decide when it runs. Free forever.">
 <meta name="twitter:image" content="https://studworks.build/og.png">
 <link rel="canonical" href="https://studworks.build/">
 <link rel="alternate" type="application/atom+xml" title="Studworks Journal" href="/journal/feed.xml">
@@ -34,7 +34,7 @@
   <a href="/projects/">Projects</a>
   <a href="/journal/">Journal</a>
   <a href="/journal/use-with-claude-chatgpt/">Claude &amp; ChatGPT</a>
-  <a class="nav-action" href="/#get-it">Get the Mac / iPad App</a>
+  <a class="nav-action" href="/#get-it">Start building</a>
 </nav>
     <div class="hero-intro"><p class="eyebrow">Your bricks. Your ideas. Free, forever.</p><h1>What will you<br><span>bring to life?</span></h1>
     <p class="tag">Build with LEGO. Describe what it should do.<br>Make something that moves.</p></div>
@@ -47,9 +47,9 @@
     <div class="composer-bottom"><a class="cta" href="/app/">Open Web App <span aria-hidden="true">→</span></a></div>
   </section>
   <p class="hero-caption">Words become a plan. You decide when it runs.<br>Use your preferred browser with a connected hub bridge—or connect directly in desktop Chrome.<br>No Studworks account needed.</p>
-  <div class="workflow-example"><p>Connect a supported LEGO hub. The native Studworks app finds out what is plugged in,
+  <div class="workflow-example"><p>Connect a supported LEGO hub. The Studworks Web App finds out what is plugged in,
   asks about anything it cannot see, turns one plain-language instruction into a small program,
-  compiles it on your own device and puts it on the hub.</p>
+  compiles it through our online service and lets you review it before sending it to the hub.</p>
 
   <p class="eyebrow">An example from the workbench</p><div class="demo">
     <span class="app">Connected — City Hub · A: Technic Large Motor · B: empty</span><br>
@@ -74,11 +74,11 @@
         so your train stays your train and your barrier stays your barrier.</li>
     <li><b>Guardrails in every run.</b> Movements have deadlines, motors coast when the program ends,
         and a jam is abandoned instead of forced.</li>
-    <li><b>Free forever. Private by design.</b> No trial, account, API key or Studworks server.
-        The app runs on your device, even offline.</li>
+    <li><b>Free forever. Private by design.</b> No trial or builder account. Your project library
+        stays in your browser; planning and compilation use Studworks' online service.</li>
   </ul>
 
-  <p>Coming in the next beta: <b>guided setup</b> helps you check the hub, read its
+  <p>The Web App beta includes <b>guided setup</b> to help you check the hub, read its
   battery and try a light, then asks whether you saw the result. <b>New project
   using this machine</b> keeps your machine’s names and limits for another idea.
   <b>Share current version</b> lets you review exactly what you share;
@@ -112,34 +112,31 @@
   <a class="cta ghost" href="/app/connect.html">Connect your hub</a></p>
   <p>For a cloud connection, start in Claude or ChatGPT using the guide. Its permission
   flow opens the hub page; opening that page on its own does not connect a chat.</p>
-  <p>Use Studworks on its own, or connect a compatible desktop AI app through
-  Model Context Protocol (MCP). Explore your hardware, create a project and review its
-  plan in Studworks before choosing to run it. The same app manages the Bluetooth
-  connection and the execution limits.</p>
+  <p>Use Studworks on its own, or build through a compatible assistant using our
+  cloud Model Context Protocol (MCP) connection. The same interface can power
+  your own agents and tools. Plan a project, understand your build and read its
+  results—with the same checks and your approval before anything runs.</p>
 
   <div class="note">
-    <p class="flush"><b>One app. MCP included.</b> The Mac app bundles the local MCP server.
-    No source checkout, separate server installation, Studworks account or cloud setup.
-    <b>It is free, forever.</b> Not a trial.</p>
+    <p class="flush"><b>One platform. Your choice of tools.</b> Build in the Web App
+    or a compatible assistant through cloud MCP. No local MCP server
+    to install and no Studworks account. <b>It is free, forever.</b> Not a trial.</p>
   </div>
 
-  <p>With the Mac app installed, open Studworks and choose <b>Enable local MCP</b>.
-  In your AI app, add a local stdio MCP server pointing to:</p>
-  <div class="demo"><code>/Applications/Studworks.app/Contents/Helpers/studworks-mcp</code></div>
-  <p>Keep Studworks open. Bluetooth permission belongs to Studworks, not the AI app.
-  See the <a href="/journal/use-with-claude-chatgpt/">Claude, ChatGPT and terminal setup guide</a>
-  for manual connection steps and the browser connection.</p>
-  <p>Start with this read-only request:</p>
-  <div class="demo"><span class="you">&gt; List nearby LEGO hubs. After I choose a hub,
-  connect, run the non-moving self-test and inspect its ports. Do not move any motors.</span></div>
+  <p>See the <a href="/journal/use-with-claude-chatgpt/">Claude, ChatGPT and agent connection guide</a>
+  for the cloud server address and setup. Hardware access still needs a Bluetooth
+  bridge near your hub. The current chat connection uses a visible desktop Chrome
+  window; your conversation can stay in your preferred browser.</p>
+  <p>After connecting and checking your hub, start with:</p>
+  <div class="demo"><span class="you">&gt; Report the battery voltage.</span></div>
   <p class="small">An AI request is not permission to move: review each proposed run
   in Studworks and choose <b>Approve and run</b> or <b>Decline</b>.</p>
-  <p class="small">The MCP server and Bluetooth connection run locally, but your chosen AI
-  client may use its own service. Its plan, charges and privacy terms are separate from
+  <p class="small">Cloud MCP sends requests through Studworks' hosted service and your chosen AI
+  provider. The provider's plan, charges and privacy terms are separate from
   Studworks. Studworks itself remains free.</p>
   <p>The <a href="/app/">Web App</a> uses our hosted service to plan and compile.
-  Work in Safari, Firefox, Chrome or Edge with your hub connected to the current
-  Studworks Mac app or a separate, visible desktop Chrome bridge window.
+  Work in Safari, Firefox, Chrome or Edge with your hub connected in a separate,
+  visible desktop Chrome bridge window, or connect directly in desktop Chrome.
   Review the project copy and approve every exact run beside your hub.
   No Studworks account is needed. <a href="/journal/set-up-your-hub/">Set up your hub bridge →</a></p>
   <p class="small">The cloud MCP/public API is deployed; chat authorization still
@@ -154,16 +151,15 @@
   </div>
 
   <h2 id="get-it">Studworks 0.1.0 Beta</h2>
-  <p>One Mac download, with the app and MCP integration together. The beta download
-  is coming next, after final device checks and Mac release packaging.</p>
+  <p>Start building in the Web App. Describe what your LEGO machine should do,
+  review the plan, and decide when to run it. Free, forever. No builder account.</p>
   <p>
-    <a class="cta" href="https://github.com/graemerycyk/studworks/releases">Mac app</a>
-    <button class="cta ghost" type="button" disabled aria-describedby="mobile-release-status">iPad / iPhone app</button>
+    <a class="cta" href="/app/">Open Web App</a>
     <a class="cta ghost" href="https://github.com/graemerycyk/studworks">GitHub</a>
   </p>
-  <p class="small"><b>For Mac, iPad and iPhone.</b> Try the <a href="/app/">Web App</a> now.<br>
-  The first beta targets Apple-silicon Macs. <span id="mobile-release-status">iPhone and iPad (iOS/iPadOS) are planned
-  for later in September 2026, subject to Apple review.</span></p>
+  <p class="small">Use desktop Chrome to connect directly to a compatible LEGO hub.
+  Other desktop browsers can use a separate, visible Chrome hub bridge.
+  <a href="/journal/set-up-your-hub/">Set up your hub →</a></p>
   </main>
 
   <footer class="site-footer">

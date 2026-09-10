@@ -5,6 +5,22 @@ import { readFile, readdir } from 'node:fs/promises';
 const publicSource = name => readFile(new URL('../' + name, import.meta.url), 'utf8');
 const plainText = value => value.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ');
 
+test('public product presents cloud MCP without retired local helper setup', async () => {
+  for (const name of ['README.md', 'index.html', 'journal/use-with-claude-chatgpt/index.html', 'journal/projects-should-travel/index.html']) {
+    const content = await publicSource(name);
+    assert.match(content, /cloud MCP/i, name);
+    assert.doesNotMatch(content, /Enable local MCP|Copy MCP configuration|Helpers\/studworks-mcp|--transport stdio|One app\. MCP included\./, name);
+  }
+  const readme = await publicSource('README.md');
+  assert.match(readme, /same remote interface/);
+  assert.match(readme, /Mac Catalyst/);
+  const guide = await publicSource('journal/use-with-claude-chatgpt/index.html');
+  assert.match(guide, /Streamable HTTP/);
+  assert.match(guide, /not an unattended hardware-control service/);
+  assert.match(guide, /not supported by the current cloud authorization policy/);
+  assert.match(guide, /href="\/api\/v1\/openapi.json"/);
+});
+
 test('website entry points lead to the web app and guided chat connection on the same deployment', async () => {
   const home = await publicSource('index.html');
   assert.match(home, /class="cta" href="\/app\/">Open Web App/);
@@ -80,7 +96,7 @@ test('every website page has the same static footer and safe fixed navigation', 
     assert.match(await publicSource('projects/' + path + '/index.html'), /href="\/journal\/first-city-hub-tests\/"/);
   }
   assert.match(await publicSource('projects/railway-crossing/index.html'), /href="\/journal\/projects-should-travel\/"/);
-  assert.match(navigation, /class="nav-action" href="\/#get-it">Get the Mac \/ iPad App/);
+  assert.match(navigation, /class="nav-action" href="\/#get-it">Start building/);
   assert.match(navigation, />Web App</);
 });
 
@@ -166,30 +182,31 @@ test('content palette keeps readable text on the new light surfaces', async () =
   contrast('ink', 'yellow');
 });
 
-test('download section identifies Mac and mobile separately without inventing an App Store link', async () => {
+test('beta section offers the Web App without postponed native downloads', async () => {
   const home = await publicSource('index.html');
-  const downloads = home.slice(home.indexOf('<h2 id="get-it">'), home.indexOf('</main>'));
-  assert.match(downloads, /href="https:\/\/github.com\/graemerycyk\/studworks\/releases">Mac app/);
-  assert.match(downloads, /<button class="cta ghost" type="button" disabled aria-describedby="mobile-release-status">iPad \/ iPhone app<\/button>/);
-  assert.doesNotMatch(downloads, /Coming soon|Mac beta releases/);
-  assert.match(downloads, /id="mobile-release-status">iPhone and iPad/);
-  assert.doesNotMatch(downloads, /apps\.apple\.com|testflight\.apple\.com|href="#"/);
-  const css = await publicSource('assets/site.css');
-  assert.match(css, /\.cta:disabled\{opacity:1;color:var\(--soft\);border-color:var\(--control-rule\);cursor:not-allowed\}/);
-  assert.match(css, /\.cta:hover:not\(:disabled\)/);
+  const beta = home.slice(home.indexOf('<h2 id="get-it">'), home.indexOf('</main>'));
+  assert.match(beta, /Studworks 0\.1\.0 Beta/);
+  assert.match(beta, /<a class="cta" href="\/app\/">Open Web App<\/a>/);
+  assert.match(beta, /href="https:\/\/github.com\/graemerycyk\/studworks">GitHub/);
+  assert.match(beta, /visible Chrome hub bridge/);
+  assert.doesNotMatch(beta, /Mac app|iPad|iPhone|\/releases|mobile-release-status|<button|September|Apple review|Coming soon/);
+  assert.doesNotMatch(home, /Get the Mac \/ iPad App|bundles MCP integration|Free, offline tools|Enable local MCP/);
+  for (const metadata of ['name="description"', 'property="og:description"', 'name="twitter:description"']) {
+    assert.ok(home.split('\n').find(line => line.includes(metadata))?.includes('Web App'), metadata);
+  }
 });
 
-test('homepage and README align implemented builder workflows with the upcoming release', async () => {
+test('homepage and README align implemented builder workflows with the Web App beta', async () => {
   for (const name of ['README.md', 'index.html']) {
     const source = await publicSource(name), copy = plainText(source);
     for (const label of ['guided setup', 'New project using this machine', 'Share current version', 'Download full backup']) {
       assert.ok(copy.toLowerCase().includes(label.toLowerCase()), `${name}: ${label}`);
     }
-    assert.match(copy, /next beta/);
-    assert.match(copy, /September 2026, subject to Apple review/);
+    assert.match(copy, /Web App beta/);
+    assert.doesNotMatch(copy, /September 2026, subject to Apple review|coming next, after final device checks/);
     assert.doesNotMatch(source, /finished safely|v0\.1\.0-beta\.1/);
   }
-  assert.match(await publicSource('README.md'), /public download and hosted service are still awaiting release/);
+  assert.match(await publicSource('README.md'), /Full native Mac\/iPad\/iPhone apps are postponed/);
   assert.match(await publicSource('index.html'), /program finished/);
 });
 

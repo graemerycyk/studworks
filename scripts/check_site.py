@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 # Exact sibling-component entry points on the combined DigitalOcean origin.
 # The private deployment preflight verifies these against its shipped web app.
-SERVICE_PAGES = {"/app/", "/app/connect.html"}
+SERVICE_PAGES = {"/app/", "/app/connect.html", "/api/v1/openapi.json"}
 PAGE_PATHS = [
     Path("index.html"),
     *(path.relative_to(ROOT) for section in ("projects", "journal", "admin", "privacy", "terms")
@@ -108,16 +108,18 @@ def check():
         assert "Draft for approval" not in policy and 'content="noindex"' not in policy, "Approved policy pages must not retain draft-only markers"
         assert "<strong>studworks.build</strong>" in policy and "<strong>Belgium</strong>" in policy, "Policies must retain the owner-supplied service name and country"
         assert "provided under the name" in policy, "Do not imply the service name is a verified registered company"
-        assert "Updated 10 September 2026" in policy, "Date the prospective processing notice separately"
+        assert "Updated 10 September 2026" in policy, "Date the planned processing notice separately from the approved policy"
         assert "The Web App is available as a beta" in policy, "Do not call the deployed Web App unavailable"
-        assert "Input/output retention for service improvement is planned" in policy and "not enabled" in policy, "Improvement collection is not active"
-        assert "Cloud hub authorization and community submissions" in policy and "launch checks" in policy, "Keep separate feature activation gates"
+        assert "Input/output retention for service improvement is planned" in policy and "not enabled" in policy, "Planned improvement retention is not active processing"
+        assert "Cloud hub authorization and community submissions" in policy and "launch checks" in policy, "Retain the separate online-feature activation gates"
         assert "(draft)" not in policy
     assert "Privacy (draft)" not in home and "Terms (draft)" not in home
     for content in (home, readme):
-        assert "/Applications/Studworks.app/Contents/Helpers/studworks-mcp" in content, "MCP must use the bundled helper"
+        assert "cloud MCP" in content, "The public integration must describe cloud MCP"
+        assert "Helpers/studworks-mcp" not in content and "Enable local MCP" not in content, "Local MCP is deferred, not bundled"
         assert "source-only" not in content and "swift build --package-path StudworksMCP" not in content, "Retired MCP setup must not return"
-        assert "Studworks 0.1.0 Beta" in content and "coming next" in content, "Do not advertise an unpublished beta as downloadable"
+        assert "Studworks 0.1.0 Beta" in content and "Open Web App" in content, "The current beta starts in the Web App"
+        assert "September 2026, subject to Apple review" not in content, "Do not promise a postponed native launch date"
     feed = ET.parse(ROOT / "journal/feed.xml").getroot()
     ns = {"a": "http://www.w3.org/2005/Atom"}
     entries = feed.findall("a:entry", ns)
