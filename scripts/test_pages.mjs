@@ -169,8 +169,9 @@ test('content palette keeps readable text on the new light surfaces', async () =
 test('download section identifies Mac and mobile separately without inventing an App Store link', async () => {
   const home = await publicSource('index.html');
   const downloads = home.slice(home.indexOf('<h2 id="get-it">'), home.indexOf('</main>'));
-  assert.match(downloads, /href="https:\/\/github.com\/graemerycyk\/studworks\/releases">Mac beta releases/);
-  assert.match(downloads, /<button class="cta ghost" type="button" disabled aria-describedby="mobile-release-status">iPad \/ iPhone app — Coming soon<\/button>/);
+  assert.match(downloads, /href="https:\/\/github.com\/graemerycyk\/studworks\/releases">Mac app/);
+  assert.match(downloads, /<button class="cta ghost" type="button" disabled aria-describedby="mobile-release-status">iPad \/ iPhone app<\/button>/);
+  assert.doesNotMatch(downloads, /Coming soon|Mac beta releases/);
   assert.match(downloads, /id="mobile-release-status">iPhone and iPad/);
   assert.doesNotMatch(downloads, /apps\.apple\.com|testflight\.apple\.com|href="#"/);
   const css = await publicSource('assets/site.css');
