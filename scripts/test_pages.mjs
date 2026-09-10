@@ -16,6 +16,7 @@ test('public product presents cloud MCP without retired local helper setup', asy
   assert.match(readme, /Mac Catalyst/);
   const guide = await publicSource('journal/use-with-claude-chatgpt/index.html');
   assert.match(guide, /Streamable HTTP/);
+  assert.doesNotMatch(guide, /new Mac beta|Enable local MCP|Helpers\/studworks-mcp/);
   assert.match(guide, /not an unattended hardware-control service/);
   assert.match(guide, /not supported by the current cloud authorization policy/);
   assert.match(guide, /href="\/api\/v1\/openapi.json"/);
