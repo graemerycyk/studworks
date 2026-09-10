@@ -166,6 +166,18 @@ test('content palette keeps readable text on the new light surfaces', async () =
   contrast('ink', 'yellow');
 });
 
+test('download section identifies Mac and mobile separately without inventing an App Store link', async () => {
+  const home = await publicSource('index.html');
+  const downloads = home.slice(home.indexOf('<h2 id="get-it">'), home.indexOf('</main>'));
+  assert.match(downloads, /href="https:\/\/github.com\/graemerycyk\/studworks\/releases">Mac beta releases/);
+  assert.match(downloads, /<button class="cta ghost" type="button" disabled aria-describedby="mobile-release-status">iPad \/ iPhone app — Coming soon<\/button>/);
+  assert.match(downloads, /id="mobile-release-status">iPhone and iPad/);
+  assert.doesNotMatch(downloads, /apps\.apple\.com|testflight\.apple\.com|href="#"/);
+  const css = await publicSource('assets/site.css');
+  assert.match(css, /\.cta:disabled\{opacity:1;color:var\(--soft\);border-color:var\(--control-rule\);cursor:not-allowed\}/);
+  assert.match(css, /\.cta:hover:not\(:disabled\)/);
+});
+
 test('homepage and README align implemented builder workflows with the upcoming release', async () => {
   for (const name of ['README.md', 'index.html']) {
     const source = await publicSource(name), copy = plainText(source);
