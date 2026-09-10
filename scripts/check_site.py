@@ -108,7 +108,10 @@ def check():
         assert "Draft for approval" not in policy and 'content="noindex"' not in policy, "Approved policy pages must not retain draft-only markers"
         assert "<strong>studworks.build</strong>" in policy and "<strong>Belgium</strong>" in policy, "Policies must retain the owner-supplied service name and country"
         assert "provided under the name" in policy, "Do not imply the service name is a verified registered company"
-        assert "not yet publicly available" in policy, "Policy approval must not announce an online-service launch"
+        assert "Updated 10 September 2026" in policy, "Date the prospective processing notice separately"
+        assert "The Web App is available as a beta" in policy, "Do not call the deployed Web App unavailable"
+        assert "Input/output retention for service improvement is planned" in policy and "not enabled" in policy, "Improvement collection is not active"
+        assert "Cloud hub authorization and community submissions" in policy and "launch checks" in policy, "Keep separate feature activation gates"
         assert "(draft)" not in policy
     assert "Privacy (draft)" not in home and "Terms (draft)" not in home
     for content in (home, readme):
