@@ -9,7 +9,7 @@ $('download-project').addEventListener('click', async () => {
     if (result.project?.format !== 'studworks.project' || result.project?.version !== 1) throw new Error('This project is not available in a supported format.');
     const url = URL.createObjectURL(new Blob([JSON.stringify(result.project, null, 2) + '\n'], { type: 'application/json' }));
     const link = document.createElement('a'); link.href = url; link.download = `studworks-${id}.json`; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
-    message('project-status', 'Project downloaded. Open it in Studworks to inspect and map your hardware.');
+    message('project-status', 'Project archive downloaded for reference. File import is not part of the current Web App beta.');
   } catch (error) { message('project-status', error.message, true); }
   finally { $('download-project').disabled = !available; }
 });
@@ -28,6 +28,6 @@ try {
   if (isProjectID(project.forkedFrom)) { const link = document.createElement('a'); link.href = projectHref(project.forkedFrom); link.textContent = 'Inspired by this original build'; $('parent-build').append(link); $('parent-build').hidden = false; }
   available = project.hasProject === true;
   $('build-actions').hidden = !available; $('download-project').disabled = !available;
-  if (available) { $('open-workbench').href = `/app/?project=${id}`; $('open-workbench').hidden = false; $('share-remix').href = `/projects/submit/?remix=${id}`; }
+  if (available) $('share-remix').href = `/projects/submit/?remix=${id}`;
   message('build-status', 'Published community build.');
 } catch (error) { message('build-status', error.message || 'This build is not available on this deployment yet.', true); }

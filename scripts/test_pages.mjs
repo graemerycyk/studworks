@@ -44,7 +44,7 @@ test('public product presents cloud MCP without retired local helper setup', asy
   }
   const readme = await publicSource('README.md');
   assert.match(readme, /same remote interface/);
-  assert.match(readme, /Mac Catalyst/);
+  assert.match(readme, /focused Web App beta/);
   const guide = await publicSource('journal/use-with-claude-chatgpt/index.html');
   assert.match(guide, /Streamable HTTP/);
   assert.doesNotMatch(guide, /new Mac beta|Enable local MCP|Helpers\/studworks-mcp/);
@@ -56,9 +56,10 @@ test('public product presents cloud MCP without retired local helper setup', asy
 test('website entry points lead to the web app and guided chat connection on the same deployment', async () => {
   const home = await publicSource('index.html');
   assert.match(home, /class="cta" href="\/app\/">Open Web App/);
-  assert.match(home, /preferred browser with a connected hub bridge/);
+  assert.match(home, /Use desktop Chrome to connect your LEGO hub/);
   const hubGuide = await publicSource('journal/set-up-your-hub/index.html');
-  for (const phrase of ['Use an existing hub bridge', 'Connect a hub', 'confirmation codes', 'Preview project for bridge', 'Use this reviewed version', 'physical stop button', 'MCP does not give their cloud server access']) assert.ok(hubGuide.includes(phrase));
+  for (const phrase of ['connection window appears over your workspace', 'Choose my hub', 'Continue without a hub', 'physical stop button', 'does not install firmware itself']) assert.ok(hubGuide.includes(phrase), phrase);
+  assert.doesNotMatch(hubGuide, /Use an existing hub bridge|confirmation codes|Preview project for bridge/);
   const guide = await publicSource('journal/use-with-claude-chatgpt/index.html');
   for (const html of [home, guide]) {
     for (const path of ['/app/', '/app/connect.html', '/journal/use-with-claude-chatgpt/']) {
@@ -228,7 +229,7 @@ test('beta section offers the Web App without postponed native downloads', async
   assert.match(beta, /Studworks 0\.1\.0 Beta/);
   assert.match(beta, /<a class="cta" href="\/app\/">Open Web App<\/a>/);
   assert.match(beta, /href="https:\/\/github.com\/graemerycyk\/studworks">GitHub/);
-  assert.match(beta, /visible Chrome hub bridge/);
+  assert.match(beta, /Other browsers can prepare drafts/);
   assert.doesNotMatch(beta, /Mac app|iPad|iPhone|\/releases|mobile-release-status|<button|September|Apple review|Coming soon/);
   assert.doesNotMatch(home, /Get the Mac \/ iPad App|bundles MCP integration|Free, offline tools|Enable local MCP/);
   for (const metadata of ['name="description"', 'property="og:description"', 'name="twitter:description"']) {
@@ -239,41 +240,56 @@ test('beta section offers the Web App without postponed native downloads', async
 test('homepage and README align implemented builder workflows with the Web App beta', async () => {
   for (const name of ['README.md', 'index.html']) {
     const source = await publicSource(name), copy = plainText(source);
-    for (const label of ['guided setup', 'New project using this machine', 'Share current version', 'Download full backup']) {
+    for (const label of ['hub setup guide', 'New project using this machine', 'Share current version', 'Download full backup']) {
       assert.ok(copy.toLowerCase().includes(label.toLowerCase()), `${name}: ${label}`);
     }
     assert.match(copy, /Web App beta/);
     assert.doesNotMatch(copy, /September 2026, subject to Apple review|coming next, after final device checks/);
     assert.doesNotMatch(source, /finished safely|v0\.1\.0-beta\.1/);
   }
-  assert.match(await publicSource('README.md'), /Full native Mac\/iPad\/iPhone apps are postponed/);
+  assert.match(await publicSource('README.md'), /project library\/autosave.*shared-project import/);
   assert.match(await publicSource('index.html'), /program finished/);
 });
 
 test('hub and connected-app guides separate non-moving checks from motor approval', async () => {
   for (const name of ['journal/set-up-your-hub/index.html', 'journal/use-with-claude-chatgpt/index.html']) {
     const copy = plainText(await publicSource(name));
-    assert.match(copy, /non-moving/);
-    assert.match(copy, /separate.*approv(?:al|ing)/);
+    assert.match(copy, /non-moving|does not move motors/);
+    assert.match(copy, /separate(?:ly)?.*approv(?:al|ing|ed)/);
     assert.doesNotMatch(copy, /(?:check|self-test|test) (?:may|can) move a motor/);
   }
   const setup = plainText(await publicSource('journal/set-up-your-hub/index.html'));
-  assert.match(setup, /15°/); assert.match(setup, /100°\/s/);
+  assert.match(setup, /Run hub check/); assert.match(setup, /Prepare this project/);
+  assert.match(await publicSource('journal/set-up-your-hub/index.html'), /href="\/projects\/quarter-turn\/"/);
 });
 
 test('project-sharing journal preserves its original date and dates the implementation update', async () => {
   const article = await publicSource('journal/projects-should-travel/index.html');
   assert.match(article, /datetime="2026-09-05"/);
-  assert.match(article, /Update — <time datetime="2026-09-07"/);
+  assert.match(article, /Update — <time datetime="2026-09-10"/);
   assert.match(article, /href="\/projects\/submit\/"/);
-  assert.match(article, /Direct publishing from the app remains future work/);
-  assert.match(article, /public beta and hosted features still await release/);
+  assert.match(article, /does not expose a project library or shared-project import/);
+  assert.match(article, /gallery and submissions still need their backend activation/);
   const feed = await publicSource('journal/feed.xml');
   const entry = [...feed.matchAll(/<entry>[\s\S]*?<\/entry>/g)]
     .map(match => match[0]).find(value => value.includes('<title>A project should travel. Permission should not.</title>'));
   assert.ok(entry);
   assert.match(entry, /<published>2026-09-05/);
-  assert.match(entry, /<updated>2026-09-07/);
+  assert.match(entry, /<updated>2026-09-10/);
+});
+
+test('public copy avoids retired app promotions and journal link-copy widgets', async () => {
+  for (const section of ['journal', 'projects', 'privacy', 'terms']) {
+    for (const path of await readdir(new URL('../' + section + '/', import.meta.url), { recursive: true })) {
+      if (!path.endsWith('.html')) continue;
+      const html = await publicSource(section + '/' + path);
+      assert.doesNotMatch(html, /\bnative app|\bMac\b|\biOS\b|\biPadOS\b|\biPad\b|\biPhone\b|App Store|Apple review/i, path);
+      if (section === 'journal') assert.doesNotMatch(html, /data-copy-link|Copy (?:guide|article) link/, path);
+    }
+  }
+  const project = await publicSource('assets/project.mjs');
+  assert.doesNotMatch(project, /open-workbench|\/app\/\?project=/);
+  assert.match(project, /File import is not part of the current Web App beta/);
 });
 
 const routes = [

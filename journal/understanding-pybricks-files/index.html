@@ -15,18 +15,17 @@
 </nav><p class="eyebrow">Getting started / Project files</p><h1>What is a Pybricks project?</h1><p class="tag">A LEGO program you can understand before you run it.</p><p class="meta"><time datetime="2026-09-07">7 September 2026</time> · Studworks guide</p></header>
 <main id="main" class="article-body">
 <h2 id="what-is-pybricks">First, what is Pybricks?</h2>
-<p>Pybricks is software for programming compatible LEGO hubs. Studworks uses it on the hub to run the programs you create in words. You don’t need to write Python to use Studworks. If your hub is new to this, start with <a href="/journal/set-up-your-hub/">hub setup</a>.</p>
+<p>Pybricks is software for programming compatible LEGO hubs. Studworks uses it on the hub to run programs you create in words. You do not need to write Python. Start with <a href="/journal/set-up-your-hub/">hub setup</a> if this is new to you.</p>
 <h2 id="file-types">What is in a project file?</h2>
-<p>A project file contains instructions for a build: which devices it uses and what they should do. Pybricks lets builders write Python or arrange visual coding blocks. Its <a href="https://pybricks.com/learn/getting-started/pybricks-environment/">program and file guide</a> explains saving, exporting and viewing the Python behind blocks.</p>
-<ul><li><strong>Python files (<code>.py</code>)</strong> contain readable code.</li><li><strong>Block-project exports</strong> describe connected coding blocks, sometimes alongside Python text. The contents matter, not just the filename ending.</li><li><strong>Studworks projects</strong> are different: they save your build’s intended behaviour, machine notes and versions. Use <strong>Make a shared project your own</strong> to open those.</li></ul>
-<h2 id="inspect">What does “Check a Pybricks project” do?</h2>
-<p>Choose a file or paste its text, then select <strong>Inspect without running</strong>. Studworks looks for devices, motor actions, sensor use and patterns it cannot safely understand. This is a read-only inspection: it does not download the file to a hub or execute its code.</p>
-<p>In the <a href="/app/">web app</a>, selecting a file only loads it into the page. Choosing to inspect sends its contents to the Studworks service. Only inspect files you are comfortable sending. The native app performs its inspection locally.</p>
+<p>A project describes instructions for a build: devices, actions and conditions. Pybricks supports Python and visual coding blocks. Its <a href="https://pybricks.com/learn/getting-started/pybricks-environment/">program and file guide</a> explains saving and exporting them.</p>
+<ul><li><strong>Python files (<code>.py</code>)</strong> contain readable program text.</li><li><strong>Block-project exports</strong> describe connected coding blocks, sometimes alongside Python. The contents matter, not just the filename.</li><li><strong>Studworks backups</strong> describe a build’s intended behaviour, machine details and retained versions. They are not the same format as a Pybricks program.</li></ul>
+<h2 id="inspect">Understanding a file is different from running it</h2>
+<p>Read-only inspection can identify devices, motor actions and unsupported patterns without sending a program to a hub. It must never execute a file simply to discover what it does.</p>
+<p>The focused Studworks Web App starts with your instruction rather than importing another program. File inspection and shared-project import are retained as future interface work, not launch controls.</p>
 <h2 id="limits">Can I run any file I find?</h2>
-<p>No. A program written for another machine might start the wrong motor, turn continuously or depend on a sensor you don’t have. A successful inspection is not a safety certificate.</p>
-<p>Block graphs are currently inspection-only. Python inside a block file must be reviewed separately; Studworks does not assume it matches the blocks. Supported Python can be translated through the native app’s guarded import workflow, but unsupported code is refused. A ZIP backup or binary project cannot be read as a plain text file; export the individual program instead.</p>
-<p>To try an idea from someone else’s build, describe it in your own words or open a shared Studworks project. You’ll still connect your own hub, confirm the devices and approve a fresh program before anything runs.</p>
-<div class="copy-row"><button class="button secondary" type="button" data-copy-link hidden>Copy guide link</button><span class="copy-status" role="status" aria-live="polite"></span></div><a class="back-link" href="/journal/">← All guides and notes</a>
+<p>No. Another machine’s program might start the wrong motor, run continuously or depend on a missing sensor. A successful inspection is not a safety certificate. Python embedded in a block file cannot be assumed to match its blocks, and a binary archive is not a plain-text program.</p>
+<p>To try a project idea, describe the desired behaviour in your own words. Check your own devices and review a fresh program before approving it. Browse <a href="/projects/">project notes</a> for a place to start.</p>
+<a class="back-link" href="/journal/">← All guides and notes</a>
 </main><footer class="site-footer">
   <p><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="mailto:help@studworks.build">Get help</a></p>
   <p><a href="/">Studworks</a> · <a href="/projects/">Projects</a> · <a href="/journal/">Journal</a> · <a href="/projects/#share">Share a build</a></p>

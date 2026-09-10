@@ -2,227 +2,86 @@
 
 **Tell a LEGO machine what to do. It works out the rest.**
 
-Connect a supported LEGO hub in the Web App. Studworks checks what is plugged in,
-asks about anything it cannot see and turns one plain-language instruction into
-a small program. Our online service compiles it; you review and approve each run.
+**Studworks 0.1.0 Beta — [Open Web App](https://studworks.build/app/).** Describe one thing your
+LEGO machine should do, review the plan and decide when it runs.
 
-**It is free, forever.** Not a trial.
+**It is free, forever.** Not a trial. No Studworks builder account is required.
 
-**Start with the [Web App](https://studworks.build/app/).** The browser beta is
-deployed. Full Mac, iPad and iPhone apps are postponed; their source and tests
-remain for a later release. There are no native-app download buttons or promised
-App Store dates in this launch. Exact-browser and real-hub checks still apply.
+## The focused Web App beta
 
-The Web App uses Studworks' hosted service for planning and compilation; private
-project copies stay in your browser. External AI tools have their own privacy
-terms. No Studworks builder account or user-supplied model API key is required.
-The retained native app has a separate on-device/offline path for a later release.
+- Connect directly in desktop Chrome. The connection window opens over the app
+  on arrival; opening it does not request Bluetooth or run a program.
+- If the hub needs Pybricks, follow the setup guidance to the official installer.
+  Installation changes the hub software and is a separate, deliberate action.
+- Run the non-moving hub check, identify the attached parts, then use **Make it**
+  to prepare an idea. **Prepare this project** produces the hardware-specific
+  program. Review it and approve each exact run separately.
+- Start with battery reporting and a hub light. Bounded motor actions need the
+  correct motor, room to move and your approval. STOP remains visible.
+- Edit machine names, directions and limits. Review exact corrections such as
+  “turn 45 degrees instead” or “make the motor 20% slower”; choose a step when
+  ambiguous and retain earlier versions during this page session.
+- **New project using this machine** carries over the current machine details,
+  not its connection or run approval. Download the original before replacing it.
+- **Share current version** previews a file without earlier snapshots.
+  **Download full backup** includes retained versions. Neither publishes a file.
 
-## What it does
+Work is held in memory on the current page. Download a reviewed backup before
+leaving or refreshing. Existing browser-saved projects from earlier builds are
+left untouched; this beta does not open, migrate, upload or delete them.
+The project library/autosave, shared-project import, Pybricks-file import,
+manual bridge-code controls and first-success widget are deferred. Their source
+and tests are retained in the platform repository and recorded in its backlog.
+Setup help now lives in the [hub setup guide](https://studworks.build/journal/set-up-your-hub/)
+and [Projects](https://studworks.build/projects/), not extra workspace panels.
 
-- Inspects the hub and identifies what is connected to each port.
-- Answers questions about the hub, including its battery voltage.
-- Controls the hub light and creates bounded motor actions from plain language.
-- Shows the generated code before you choose to run it.
-- Asks when a motor's purpose is unclear and rejects instructions it cannot
-  interpret safely instead of guessing.
+Planning and compilation use Studworks' hosted service. Other desktop browsers
+can prepare and review drafts, but this beta needs browser Bluetooth to operate
+a hub. Additional connection options and hosted-model parity remain future work.
+There is no connected server-side project database in the current deployment.
+Improvement collection is implemented but disabled pending storage and safeguards;
+the [privacy notice](https://studworks.build/privacy/) distinguishes that planned
+collection from the requests needed to prepare a program.
 
-The beta focuses on explicit, bounded actions. The current source includes saved
-machine details, portable projects, version history and exact corrections such
-as “Make the lift motor 20% slower”, “turn 45 degrees instead” and “wait two seconds
-longer”. Exact edits show a before/after review and ask which step when ambiguous.
-The web workbench also has device-local autosave, a project library and machine
-detail editing; it does not need a builder account.
+## Hardware and safety
 
-The Web App beta includes these implemented workflows. Native source retains the
-same concepts for later releases:
+The platform targets City Hub, Technic Hub, BOOST Move, SPIKE Prime, SPIKE Essential
+and MINDSTORMS Robot Inventor using [Pybricks](https://pybricks.com) on the hub.
+The beta focuses on port inspection, battery, hub-light and bounded motor actions.
+Sensors, continuous control and unrestricted corrections are not promised by
+this launch. Software tests are not qualification of every browser and hub.
 
-- **Guided setup:** connect, run the non-moving hub check, confirm the attached
-  parts, report the battery and try a red light for two seconds. After each
-  completed test, you confirm whether the expected result happened. A detached,
-  unloaded motor can optionally turn 15° at 100°/s, after explicit opt-in, port
-  confirmation and separate approval of the exact run. Nothing retries itself.
-- **New project using this machine:** keep your saved names, descriptions,
-  directions and limits in an independent project with a new instruction. The
-  original stays separate. Check the current hardware and confirm its roles
-  again; no connection or run permission is copied.
-- **Share current version** shows exactly which instructions, notes and
-  attribution leave your device, without earlier snapshots. **Download full
-  backup** includes the retained version history. Both let you review the file
-  before export, and neither publishes it automatically.
+Studworks asks when a motor's purpose is unclear, shows what will run and rejects
+instructions it cannot interpret safely. Moves have deadlines and the guarded
+runtime coasts motors when a program ends. Keep the physical stop button within
+reach; an unconfirmed STOP is not a successful stop. No suggested fix retries
+movement automatically.
 
-Free-form corrections, sensor automation and continuous control remain outside
-the supported surface. Software checks are not exact-build hardware qualification.
+## Cloud MCP
 
-## Why it is different
+The cloud MCP interface exposes the same platform to compatible assistants and agents through
+the same remote interface. It is separate from the focused Web App workspace.
+There is no local MCP installation in this launch.
 
-**Your words become motion.** Tell Studworks one thing you want your LEGO machine
-to do. It looks at the real hardware, creates a small program for the build in
-front of you, and shows you exactly what will run. If anything is unclear, it asks
-before it acts.
+See the [Claude, ChatGPT and agent guide](https://studworks.build/journal/use-with-claude-chatgpt/)
+for Streamable HTTP setup and the [API reference](https://studworks.build/api/v1/openapi.json).
+Planning can work without hardware. Physical control needs a nearby, visible
+Bluetooth-capable browser, temporary authorization and approval of every exact
+run. The conversation can stay in another browser; MCP cannot give a cloud host
+direct Bluetooth access. Provider configuration and real-host/hub checks remain
+required before public hardware authorization is enabled. External providers
+have their own compatibility, charges and privacy terms.
 
-- **From idea to action.** Describe what you want. Studworks creates the program;
-  you decide when to run it.
-- **It knows your build.** Motors and sensors are matched to what is actually
-  plugged in, so your train stays your train and your barrier stays your barrier.
-- **Guardrails in every run.** Movements have deadlines, motors coast when the
-  program ends, and a jam is abandoned instead of forced.
-- **Free forever. Private by design.** No trial, account, API key or Studworks
-  server. The app runs on your device, even offline.
+## Projects and journal
 
-## Hardware
+Projects are evidence and inspiration, not permission to run someone else's
+machine. The current gallery/submission backend still needs activation. Reviewed
+project archives can be attached to a submission; importing them back into the
+Web App is deferred. There are no builder accounts, verified creator identities
+or invented community counts. Journal posts explain the tools and record the
+development evidence, with current limitations distinguished from future plans.
 
-Works with supported LEGO hubs, including City, Technic, BOOST Move, SPIKE Prime,
-SPIKE Essential, and MINDSTORMS Robot Inventor. Studworks detects supported motors
-and colour/distance sensors; the first beta exposes port inspection, battery,
-hub-light, and bounded motor actions.
-
-Studworks uses [Pybricks](https://pybricks.com) on the hub. If it is not installed
-yet, the app guides you through setup.
-
-## Cloud MCP setup
-
-Build in the Web App or a compatible assistant through the
-same Studworks platform. **Cloud MCP is the public AI integration**: no local
-MCP server or separate Studworks MCP client to install. Terminal clients and
-custom agents can use the same remote interface, subject to compatibility and
-the same approval rules. See the [connection guide](https://studworks.build/journal/use-with-claude-chatgpt/)
-and [public API reference](https://studworks.build/api/v1/openapi.json).
-
-Use the HTTPS server address from that guide in your assistant's connection
-settings, not in the conversation. Planning can work without hardware. Hardware
-access needs a Bluetooth bridge near the hub, a temporary authorized session,
-fresh hardware checks and your separate approval of each exact run. The current
-public authorization flow uses a visible desktop Chrome bridge; your assistant
-can run in your preferred browser. Provider setup and real-host/device checks
-are still required before cloud hardware authorization is activated.
-
-The Web App also has **Use a connected bridge**: work in modern Safari, Firefox,
-Chrome or Edge with the hub connected in a separate visible desktop Chrome
-bridge. A private temporary invitation and matching confirmation codes
-pair the two. Review a current-version project copy, send it, then approve every
-exact run beside the hub. The new native plan-refresh path needs a fresh Mac
-build; independently revised owner copies require a separate plan review.
-This manual Web App path does not need Claude, ChatGPT or OAuth activation.
-Native public cloud authorization is not yet part of this pairing flow.
-See the [hub guide](https://studworks.build/journal/set-up-your-hub/).
-
-The native app is one iPhone/iPad app, also built for Mac with Mac Catalyst.
-Apple still requires separate platform builds, signing and distribution checks.
-Its ordinary offline workflow needs neither MCP nor the hosted service. The
-Web App and cloud MCP send requests to Studworks' service; your chosen AI
-provider may process them too and has separate privacy terms and charges.
-**Studworks is free, forever.** No builder account is required.
-
-Local MCP is deferred, not bundled in the app. Existing development users
-should stop any hub program, confirm the hub is stopped, then remove old local
-Studworks MCP entries from their AI tools. Do not copy old helper binaries into
-a new signed app. Cloud authorization does not migrate old local permissions.
-
-## Studworks 0.1.0 Beta
-
-### Getting started guides
-
-On the combined DigitalOcean site, choose **Open Web App** on the homepage or
-**Start building** in the header. The shared footer retains **Web App**. All three
-open the same Web App directly. The routes are:
-
-| Destination | Same-origin path |
-| --- | --- |
-| Web App | `/app/` |
-| Claude/ChatGPT setup guide | `/journal/use-with-claude-chatgpt/` |
-| Browser hub connection | `/app/connect.html` |
-| First-time hub setup | `/journal/set-up-your-hub/` |
-
-The connection guide copies the current HTTPS deployment's `/mcp` address,
-including a generated DigitalOcean staging domain. Local HTTP retains the public
-address as a fallback. `/mcp` is a protocol setting, not a webpage. Hardware
-authorization starts from the chosen chat host; opening the hub page alone does
-not authorize that chat or approve a run. OAuth must first be configured and
-qualified by the operator.
-
-On 8 September 2026 the owner approved consolidating the website on `main` and
-publishing its latest design to GitHub Pages before the DigitalOcean migration.
-Pages alone cannot serve `/app/` or the API: those links become usable when the
-combined DigitalOcean deployment is connected to this domain. `main` is the
-default source branch; the former `master` and completed review branch can be
-removed after their history is verified in `main`. DigitalOcean takes the locked
-website snapshot from the app repository, not a live fetch of this repository.
-
-- [Set up your LEGO hub](https://www.studworks.build/journal/set-up-your-hub/)
-- [Use with Claude, ChatGPT or terminal tools](https://www.studworks.build/journal/use-with-claude-chatgpt/)
-- [Understand Pybricks project files](https://www.studworks.build/journal/understanding-pybricks-files/)
-
-The connection guide describes cloud MCP and the nearby Bluetooth bridge, not
-a bundled local MCP helper. It does not claim an official directory listing or completed
-host/hardware qualification.
-
-### Beta package
-
-The beta entry point is **Open Web App**, with GitHub as the secondary link.
-There is no Mac/mobile download or disabled App Store button in this section.
-Use desktop Chrome for direct Bluetooth, or a separate visible Chrome hub bridge
-while working in another desktop browser. **It is free, forever.** Not a trial.
-
-Full native Mac/iPad/iPhone apps are postponed, not deleted. Studworks Connect
-utilities for Mac and Windows and hosted-model parity remain planned work,
-not available downloads. The current hosted planner is deterministic; cloud hub
-authorization still needs provider setup and attended host/hardware qualification.
-
-**Early.** Studworks is being built in the open and is not finished. If you try it
-and it does something daft, email [help@studworks.build](mailto:help@studworks.build)
-or [open an issue](https://github.com/graemerycyk/studworks/issues). Telling me is
-the most useful thing you can do.
-
-## Projects and Journal
-
-The owner approved `/privacy/` and `/terms/`, effective **7 September 2026**.
-They identify **studworks.build — Belgium**, with **help@studworks.build** for
-privacy/support. Draft labels and `noindex` were removed. The policies distinguish
-current DigitalOcean hosting and transient planning from planned improvement
-retention and separately gated sharing/authorization. The 10 September policy
-update is published; collection is not enabled. Policy publication does not
-certify legal compliance or activate those features.
-Operator identity/contact details and actual production processing arrangements
-remain part of the deployment and directory-submission review.
-
-The website has two lightweight editorial sections:
-
-- [Projects](https://www.studworks.build/projects/): development-tested starter
-  experiments, separately labelled future concepts, and a form to share a build
-  without a builder account or email. Each editorial project has its own page with hardware, prompts, expected
-  behaviour, evidence limits and safety notes.
-- [Journal](https://www.studworks.build/journal/): field notes and product decisions,
-  with an [Atom feed](https://www.studworks.build/journal/feed.xml).
-
-This is a moderated gallery, not a social network. Builders may submit
-anonymously or choose a name/username and an optional HTTPS blog/social link.
-Credit is unverified metadata on that build, not a registered profile.
-Submit text, a public photo/video link and, optionally, a portable Studworks
-project (up to 1 MiB). Only approved submissions appear publicly. Use **Share
-current version** and review its exact contents before attaching it. Current
-names and notes are not automatically anonymized; a **full backup** also includes
-earlier instructions and notes. The whole submitted file becomes public if approved.
-There are no builder accounts, likes, comments, visitor profiles, media uploads or
-automatic publication. A private receipt lets builders check or withdraw a
-submission. `/admin/` uses allowlisted, single-use magic-link moderator login.
-This requires the new backend's PostgreSQL and mail configuration: GitHub Pages
-alone cannot accept submissions. Unconfigured forms stay closed, not fake-saved.
-Copying a prompt does not open the app, connect to hardware or execute anything.
-Published builds have a shareable page, project download and explicit web-app
-import link. Imported projects become independent copies; source facts require
-confirmation and neither live bindings nor run approvals are transferred.
-Remixes can link back to their published source. Publishing does not enrol the
-whole project or its media in improvement data. The privacy/terms source separately
-describes planned default-on, limited submitted input/output improvement and
-reviewed training/evaluation without separate opt-in or training checkboxes.
-Collection is not enabled: screening, lawful-basis review, rights and retention
-safeguards must precede activation. No identity/IP/session-tracking fields enter
-that dataset; text can still contain personal information and needs screening.
-Builders keep their project rights. Direct in-app publishing is not required:
-export the project and attach it to the submission form.
-
-### Maintaining the website
+## Maintaining the website
 
 The site stays plain HTML/CSS/JavaScript. Its editorial content can be served
 statically; web-app links and the submission/moderation backend require the
@@ -244,9 +103,8 @@ The shared footer contains navigation, support and attribution, not repeated
 pricing slogans. The homepage states the free pricing once in its feature copy;
 relevant journal articles and terms can explain it in context. The Web App itself
 uses a compact product header and Help menu, without a marketing hero or footer.
-Homepage copy distinguishes direct desktop Chrome Bluetooth from the Web App's
-browser-independent bridge controller. Bluetooth stays in the connected Mac app
-or a separate visible Chrome bridge; every run remains locally approved. Static checks
+Homepage copy distinguishes direct desktop Chrome Bluetooth from drafting in
+other browsers. Cloud MCP retains its separate, locally approved connection. Static checks
 allow only the explicit sibling routes `/app/` and `/app/connect.html`; the app
 repository's deployment preflight checks the actual shipped targets in both
 directions, including page fragments.

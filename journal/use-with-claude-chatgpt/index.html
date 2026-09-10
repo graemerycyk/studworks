@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Use Studworks with Claude or ChatGPT — Studworks Journal</title><meta name="description" content="Manual setup for Claude, ChatGPT, Claude Code and Codex, with a browser hub connection or the local Studworks Mac app.">
+<title>Use Studworks with Claude or ChatGPT — Studworks Journal</title><meta name="description" content="Manual setup for Claude, ChatGPT, Claude Code and Codex, with a nearby browser hub connection.">
 <link rel="canonical" href="https://studworks.build/journal/use-with-claude-chatgpt/">
 <meta property="og:title" content="Use Studworks with Claude or ChatGPT"><meta property="og:description" content="Connect the app you already use. Stay in charge of what your LEGO machine runs."><meta property="og:type" content="article"><meta property="og:url" content="https://studworks.build/journal/use-with-claude-chatgpt/"><meta property="article:published_time" content="2026-09-07">
 <link rel="alternate" type="application/atom+xml" title="Studworks Journal" href="/journal/feed.xml"><link rel="stylesheet" href="/assets/site.css"><script src="/assets/site.js" defer></script>
@@ -33,16 +33,16 @@
 <h2 id="hub-permission">Let your chat use this hub</h2>
 <ol><li>When the connection opens Studworks, keep that page visible in its own Chrome window.</li><li>Choose <strong>Connect your hub</strong> and select your LEGO hub. Only continue if you started this connection; check the requesting app and return address.</li><li>Review the requested access, tick the confirmation and choose <strong>Allow connection</strong>.</li><li>Choose <strong>Return to your chat</strong>. Keep both windows visible. If your browser blocks the new window, allow pop-ups for Studworks and try again.</li></ol>
 <p>This grants temporary access for up to 30 minutes. It does <strong>not</strong> approve movement. The assistant can prepare a program or ask to run it; you check the exact program and choose <strong>Approve and run once</strong> beside the hub. The non-moving hub check needs its own local confirmation; any later motor test or program needs separate run approval.</p>
-<p>Start with <strong>“Report the battery voltage.”</strong> Export projects you want to keep before closing the connection window: they stay only in memory here, not in the workbench’s saved project library. Hiding or closing the hub window ends access and sends a stop request. Keep the physical stop button within reach if the connection fails. Phone background control is not supported.</p>
+<p>Start with <strong>“Report the battery voltage.”</strong> Projects in the connection window stay only in memory; closing it ends that session. Hiding or closing the hub window ends access and sends a stop request. Keep the physical stop button within reach if the connection fails. Phone background control is not supported.</p>
 <h2 id="terminal">Terminal tools, agents and your own experiences</h2>
-<p>Use the same cloud server address above in a compatible remote MCP client. There is no local Studworks MCP server to install or enable in the Mac app. For client developers, the connection uses <strong>Streamable HTTP</strong>; hardware tools require the documented OAuth flow as well as a nearby hub bridge.</p>
+<p>Use the same cloud server address above in a compatible remote MCP client. For client developers, the connection uses <strong>Streamable HTTP</strong>; hardware tools require the documented OAuth flow as well as a nearby hub bridge.</p>
 <p>Your agent can help plan, inspect and improve a project. It cannot approve its own movement: each exact run still needs confirmation beside the hub. This is not an unattended hardware-control service.</p>
 <p>Follow your tool’s remote MCP setup instructions, such as <a href="https://code.claude.com/docs/en/mcp">Claude Code’s MCP guide</a>. Custom applications can also use the <a href="/api/v1/openapi.json">public API reference</a>. Host compatibility and hardware access need testing before relying on them.</p>
 <p>Never paste passwords or access tokens into a conversation. Use the client’s connection and authorization settings.</p>
 <p class="small">Some terminal clients return sign-in to a local HTTP address. That is not supported by the current cloud authorization policy. Those clients may use anonymous planning, but hardware access needs a supported authorization flow; do not copy another client’s token as a workaround.</p>
 <h2 id="privacy">What leaves my device?</h2>
-<p>Cloud MCP sends project text, selected hub details and results through Studworks’ service and your chosen assistant. Its subscription and privacy terms are separate. Studworks remains free, with no builder account to create. The native app’s ordinary offline workflow does not need MCP or Studworks’ cloud service.</p>
-<div class="copy-row"><button class="button secondary" type="button" data-copy-link hidden>Copy guide link</button><span class="copy-status" role="status" aria-live="polite"></span></div><a class="back-link" href="/journal/">← All guides and notes</a>
+<p>Cloud MCP sends project text, selected hub details and results through Studworks’ service and your chosen assistant. Its subscription and privacy terms are separate. Review your provider’s rules before sharing project details.</p>
+<a class="back-link" href="/journal/">← All guides and notes</a>
 <p class="small">Studworks is independent of Anthropic and OpenAI.</p>
 </main><footer class="site-footer">
   <p><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="mailto:help@studworks.build">Get help</a></p>
